@@ -1,36 +1,36 @@
-<?php // Start PHP script for company registration page
-require_once __DIR__ . '/inc/header.inc.php'; // Include header with session guards and database connection
+<?php // Inicia el script PHP para la página de registro de empresas
+require_once __DIR__ . '/inc/header.inc.php'; // Incluye el encabezado con guardias de sesión y conexión a la base de datos
 
-// Restrict access: only Admin (level 1) can view this company creation page
-if ($_SESSION['Usuario_Nivel'] != 1) { // Check if the logged-in user is not an Admin
-    header('Location: index.php'); // Redirect unauthorized user back to dashboard home
-    exit(); // Stop further script execution
-} // End Admin access guard check
+// Restringe el acceso: solo el Administrador (Nivel 1) puede ver esta página de creación de empresas
+if ($_SESSION['Usuario_Nivel'] != 1) { // Verifica si el usuario autenticado no es un Administrador
+    header('Location: index.php'); // Redirecciona al usuario no autorizado al panel de control
+    exit(); // Detiene la ejecución del script
+} // Fin de la verificación de la guardia de acceso del Administrador
 
-$paises = Listar_Paises($vConexion); // Retrieve list of all active non-deleted countries for dropdown selector
+$paises = Listar_Paises($vConexion); // Obtiene la lista de todos los países activos no eliminados para el selector desplegable
 
-$Msg_Exito = false; // Flag to trigger success message display
-$Msg_Error = ""; // String to hold dynamic validation error alerts
+$Msg_Exito = false; // Bandera para activar la visualización del mensaje de éxito
+$Msg_Error = ""; // Cadena para almacenar mensajes dinámicos de errores de validación
 
-if (!empty($_POST['btnRegistrar'])) { // Check if form was submitted via POST
-    $vDenominacion = trim(strip_tags($_POST['txtDenominacion'])); // Clean and sanitize company name input
-    $vPais = intval($_POST['selPais']); // Retrieve selected country ID and cast to integer
-    $vObservaciones = trim(strip_tags($_POST['txtObservaciones'])); // Clean and sanitize observations text
-    $vUsuarioCarga = $_SESSION['Usuario']; // Retrieve username from active session
+if (!empty($_POST['btnRegistrar'])) { // Verifica si el formulario fue enviado mediante POST
+    $vDenominacion = trim(strip_tags($_POST['txtDenominacion'])); // Limpia y sanitiza la entrada del nombre de la empresa
+    $vPais = intval($_POST['selPais']); // Obtiene el ID del país seleccionado y lo convierte a entero
+    $vObservaciones = trim(strip_tags($_POST['txtObservaciones'])); // Limpia y sanitiza el texto de observaciones
+    $vUsuarioCarga = $_SESSION['Usuario']; // Obtiene el nombre de usuario de la sesión activa
 
-    if (strlen($vDenominacion) < 3) { // Check if denomination has less than 3 characters
-        $Msg_Error = "El nombre de la empresa debe tener al menos 3 caracteres."; // Set validation error message
-    } elseif ($vPais <= 0) { // Check if a valid country has not been selected
-        $Msg_Error = "Debes seleccionar un país de operaciones."; // Set validation error message
-    } else { // Proceed if all validation conditions are met
-        $exito = Insertar_Empresa($vConexion, $vDenominacion, $vPais, $vObservaciones, $vUsuarioCarga); // Call insert utility
-        if ($exito) { // Check if database insert query was successful
-            $Msg_Exito = true; // Mark success display flag as true
-        } else { // Handle database write failure
-            $Msg_Error = "No se pudo guardar la empresa. Intenta de nuevo."; // Set save error message
-        } // End insert query check
-    } // End validations check
-} // End POST check
+    if (strlen($vDenominacion) < 3) { // Verifica si la denominación tiene menos de 3 caracteres
+        $Msg_Error = "El nombre de la empresa debe tener al menos 3 caracteres."; // Define el mensaje de error de validación
+    } elseif ($vPais <= 0) { // Verifica si no se ha seleccionado un país válido
+        $Msg_Error = "Debes seleccionar un país de operaciones."; // Define el mensaje de error de validación
+    } else { // Procede si se cumplen todas las condiciones de validación
+        $exito = Insertar_Empresa($vConexion, $vDenominacion, $vPais, $vObservaciones, $vUsuarioCarga); // Llama a la utilidad de inserción
+        if ($exito) { // Verifica si la consulta de inserción en la base de datos fue exitosa
+            $Msg_Exito = true; // Establece la bandera de visualización de éxito en verdadero
+        } else { // Manejo de fallo en la escritura de la base de datos
+            $Msg_Error = "No se pudo guardar la empresa. Intenta de nuevo."; // Define el mensaje de error al guardar
+        } // Fin de la verificación de la consulta de inserción
+    } // Fin del chequeo de validaciones
+} // Fin del chequeo de POST
 ?>
 <div class="mb-3"> 
     <h1 class="h3 d-inline align-middle">Cargar Nueva Empresa</h1> 
@@ -39,16 +39,16 @@ if (!empty($_POST['btnRegistrar'])) { // Check if form was submitted via POST
     <div class="col-12 col-lg-6"> 
         <div class="card"> 
             <div class="card-header pb-0"> 
-                <?php if ($Msg_Exito) { // Check if company was registered successfully ?> 
+                <?php if ($Msg_Exito) { // Verifica si la empresa fue registrada con éxito ?> 
                 <h4 class="text-success text-center"> 
                     <i class="align-middle" data-feather="check-square"></i> Registro cargado correctamente. 
                 </h4> 
-                <?php } // End success check ?> 
-                <?php if (!empty($Msg_Error)) { // Check if a validation error occurred ?> 
+                <?php } // Fin del chequeo de éxito ?> 
+                <?php if (!empty($Msg_Error)) { // Verifica si ocurrió un error de validación ?> 
                 <h4 class="text-danger text-center"> 
-                    <i class="align-middle me-2" data-feather="alert-circle"></i> <?php echo $Msg_Error; // Output custom error message ?> 
+                    <i class="align-middle me-2" data-feather="alert-circle"></i> <?php echo $Msg_Error; // Muestra el mensaje de error personalizado ?> 
                 </h4> 
-                <?php } // End error check ?> 
+                <?php } // Fin del chequeo de error ?> 
                 <h4 class="text-info text-center mt-2"> 
                     Los campos con <i class="align-middle me-2" data-feather="command"></i> son obligatorios 
                 </h4> 
@@ -63,11 +63,11 @@ if (!empty($_POST['btnRegistrar'])) { // Check if form was submitted via POST
                         <h5 class="card-title mb-1">Pais <i class="align-middle me-2" data-feather="command"></i></h5> 
                         <select name="selPais" class="form-select" required> 
                             <option value="0">Elige una opción</option> 
-                            <?php foreach ($paises as $pais) { // Loop through country rows to build options ?> 
+                            <?php foreach ($paises as $pais) { // Recorre las filas de los países para construir las opciones ?> 
                             <option value="<?php echo $pais['ID']; ?>" <?php echo isset($_POST['selPais']) && $_POST['selPais'] == $pais['ID'] && !$Msg_Exito ? 'selected' : ''; ?>> 
-                                <?php echo htmlspecialchars($pais['NOMBRE']); // Output country designation ?> 
+                                <?php echo htmlspecialchars($pais['NOMBRE']); // Muestra la denominación del país ?> 
                             </option> 
-                            <?php } // End countries traversal loop ?> 
+                            <?php } // Fin del bucle de países ?> 
                         </select> 
                     </div> 
                     <div class="mb-3"> 
@@ -82,6 +82,6 @@ if (!empty($_POST['btnRegistrar'])) { // Check if form was submitted via POST
         </div> 
     </div> 
 </div> 
-<?php // Close HTML tags and include scripts
-require_once __DIR__ . '/inc/footer.inc.php'; // Include footer template file
+<?php // Cierra las etiquetas HTML e incluye los scripts finales
+require_once __DIR__ . '/inc/footer.inc.php'; // Incluye el archivo de plantilla del pie de página
 ?>

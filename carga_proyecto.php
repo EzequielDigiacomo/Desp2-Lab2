@@ -1,36 +1,36 @@
-<?php // Start PHP script for project entry form
-require_once __DIR__ . '/inc/header.inc.php'; // Include header with session guards and database connection
+<?php // Inicia el script PHP para el formulario de ingreso de proyectos
+require_once __DIR__ . '/inc/header.inc.php'; // Incluye el encabezado con guardias de sesión y conexión a la base de datos
 
-$empresas = Listar_Empresas($vConexion); // Retrieve list of active companies for the client selector
-$lideres = Listar_Lideres($vConexion); // Retrieve list of project leaders for the leader dropdown selector
+$empresas = Listar_Empresas($vConexion); // Obtiene la lista de empresas activas para el selector del cliente
+$lideres = Listar_Lideres($vConexion); // Obtiene la lista de líderes de proyectos para el desplegable de selección del líder
 
-$Msg_Exito = false; // Flag to display save success alert
-$Msg_Error = ""; // String to hold custom error alert messages
+$Msg_Exito = false; // Bandera para mostrar la alerta de éxito al guardar
+$Msg_Error = ""; // Cadena para almacenar mensajes dinámicos de alertas de error
 
-if (!empty($_POST['btnRegistrar'])) { // Check if the registration form was submitted via POST
-    $vDenominacion = trim(strip_tags($_POST['txtDenominacion'])); // Clean and sanitize the project name input
-    $vEmpresa = intval($_POST['selEmpresa']); // Retrieve selected company ID, cast as integer
-    $vLider = intval($_POST['selLider']); // Retrieve selected leader ID, cast as integer
-    $vObservaciones = trim(strip_tags($_POST['txtObservaciones'])); // Clean and sanitize observations text
-    $vPrioridad = isset($_POST['chkPrioridad']) ? 1 : 0; // Set priority flag: 1 if checked, 0 otherwise
-    $vUsuarioCarga = $_SESSION['Usuario']; // Retrieve username of the creator from active session
+if (!empty($_POST['btnRegistrar'])) { // Verifica si el formulario de registro fue enviado mediante POST
+    $vDenominacion = trim(strip_tags($_POST['txtDenominacion'])); // Limpia y sanitiza la entrada del nombre del proyecto
+    $vEmpresa = intval($_POST['selEmpresa']); // Obtiene el ID de la empresa seleccionada y lo convierte a entero
+    $vLider = intval($_POST['selLider']); // Obtiene el ID del líder seleccionado y lo convierte a entero
+    $vObservaciones = trim(strip_tags($_POST['txtObservaciones'])); // Limpia y sanitiza el texto de observaciones
+    $vPrioridad = isset($_POST['chkPrioridad']) ? 1 : 0; // Establece la bandera de prioridad: 1 si está marcado, 0 en caso contrario
+    $vUsuarioCarga = $_SESSION['Usuario']; // Obtiene el nombre de usuario del creador de la sesión activa
 
-    // Validate project name length
-    if (strlen($vDenominacion) < 3) { // Check if project name is shorter than 3 characters
-        $Msg_Error = "El nombre del proyecto debe tener al menos 3 caracteres."; // Set validation error message
-    } elseif ($vEmpresa <= 0) { // Check if no valid client company was chosen
-        $Msg_Error = "Debes seleccionar una empresa válida para el proyecto."; // Set validation error message
-    } elseif ($vLider <= 0) { // Check if no valid leader was selected
-        $Msg_Error = "Debes asignar un líder al proyecto."; // Set validation error message
-    } else { // Proceed if all validations pass
-        $exito = Insertar_Proyecto($vConexion, $vDenominacion, $vEmpresa, $vLider, $vObservaciones, $vPrioridad, $vUsuarioCarga); // Call insert function
-        if ($exito) { // Check if database insert query succeeded
-            $Msg_Exito = true; // Set success alert flag to true
-        } else { // Handle database write failure
-            $Msg_Error = "No se pudo guardar el proyecto en el sistema. Intenta de nuevo."; // Set general save failure error
-        } // End insert query check
-    } // End validations check
-} // End POST check
+    // Valida la longitud del nombre del proyecto
+    if (strlen($vDenominacion) < 3) { // Verifica si el nombre del proyecto tiene menos de 3 caracteres
+        $Msg_Error = "El nombre del proyecto debe tener al menos 3 caracteres."; // Define el mensaje de error de validación
+    } elseif ($vEmpresa <= 0) { // Verifica si no se seleccionó una empresa cliente válida
+        $Msg_Error = "Debes seleccionar una empresa válida para el proyecto."; // Define el mensaje de error de validación
+    } elseif ($vLider <= 0) { // Verifica si no se asignó un líder válido
+        $Msg_Error = "Debes asignar un líder al proyecto."; // Define el mensaje de error de validación
+    } else { // Procede si todas las validaciones son exitosas
+        $exito = Insertar_Proyecto($vConexion, $vDenominacion, $vEmpresa, $vLider, $vObservaciones, $vPrioridad, $vUsuarioCarga); // Llama a la función de inserción
+        if ($exito) { // Verifica si la consulta de inserción en la base de datos fue exitosa
+            $Msg_Exito = true; // Establece la bandera de alerta de éxito en verdadero
+        } else { // Manejo de fallo en la escritura de la base de datos
+            $Msg_Error = "No se pudo guardar el proyecto en el sistema. Intenta de nuevo."; // Define el mensaje de error general al guardar
+        } // Fin de la verificación de la consulta de inserción
+    } // Fin del chequeo de validaciones
+} // Fin del chequeo de POST
 ?>
 <div class="mb-3"> 
     <h1 class="h3 mb-3"><strong>Proyectos</strong> Cargar nuevo.</h1> 
@@ -39,16 +39,16 @@ if (!empty($_POST['btnRegistrar'])) { // Check if the registration form was subm
     <div class="col-12 col-lg-6"> 
         <div class="card"> 
             <div class="card-header pb-0"> 
-                <?php if ($Msg_Exito) { // Check if save was successful ?> 
+                <?php if ($Msg_Exito) { // Verifica si el guardado fue exitoso ?> 
                 <h4 class="text-success text-center"> 
                     <i class="align-middle" data-feather="check-square"></i> Registro cargado correctamente. 
                 </h4> 
-                <?php } // End success message check ?> 
-                <?php if (!empty($Msg_Error)) { // Check if there is an error to display ?> 
+                <?php } // Fin de la verificación del mensaje de éxito ?> 
+                <?php if (!empty($Msg_Error)) { // Verifica si hay un error para mostrar ?> 
                 <h4 class="text-danger text-center"> 
-                    <i class="align-middle me-2" data-feather="alert-circle"></i> <?php echo $Msg_Error; // Output custom error text ?> 
+                    <i class="align-middle me-2" data-feather="alert-circle"></i> <?php echo $Msg_Error; // Muestra el texto de error personalizado ?> 
                 </h4> 
-                <?php } // End error message check ?> 
+                <?php } // Fin de la verificación del mensaje de error ?> 
                 <h4 class="text-info text-center mt-2"> 
                     Los campos con <i class="align-middle me-2" data-feather="command"></i> son obligatorios 
                 </h4> 
@@ -63,22 +63,22 @@ if (!empty($_POST['btnRegistrar'])) { // Check if the registration form was subm
                         <h5 class="card-title mb-1">Empresa <i class="align-middle me-2" data-feather="command"></i></h5> 
                         <select name="selEmpresa" class="form-select" required> 
                             <option value="0">Para quien trabajaremos...</option> 
-                            <?php foreach ($empresas as $empresa) { // Loop through companies to render dropdown options ?> 
+                            <?php foreach ($empresas as $empresa) { // Recorre las empresas para renderizar las opciones del desplegable ?> 
                             <option value="<?php echo $empresa['ID']; ?>" <?php echo isset($_POST['selEmpresa']) && $_POST['selEmpresa'] == $empresa['ID'] && !$Msg_Exito ? 'selected' : ''; ?>> 
-                                <?php echo htmlspecialchars($empresa['DENOMINACION']); // Output sanitized company name ?> 
+                                <?php echo htmlspecialchars($empresa['DENOMINACION']); // Muestra el nombre sanitizado de la empresa ?> 
                             </option> 
-                            <?php } // End companies options loop ?> 
+                            <?php } // Fin del bucle de opciones de empresas ?> 
                         </select> 
                     </div> 
                     <div class="mb-3"> 
                         <h5 class="card-title mb-1">Líder <i class="align-middle me-2" data-feather="command"></i></h5> 
                         <select name="selLider" class="form-select" required> 
                             <option value="0">Selecciona una opción</option> 
-                            <?php foreach ($lideres as $lider) { // Loop through leaders to build select options ?> 
+                            <?php foreach ($lideres as $lider) { // Recorre los líderes para construir las opciones de selección ?> 
                             <option value="<?php echo $lider['ID']; ?>" <?php echo isset($_POST['selLider']) && $_POST['selLider'] == $lider['ID'] && !$Msg_Exito ? 'selected' : ''; ?>> 
-                                <?php echo htmlspecialchars($lider['NOMBRE_COMPLETO']); // Output sanitized leader name ?> 
+                                <?php echo htmlspecialchars($lider['NOMBRE_COMPLETO']); // Muestra el nombre del líder sanitizado ?> 
                             </option> 
-                            <?php } // End leaders option loop ?> 
+                            <?php } // Fin del bucle de opciones de líderes ?> 
                         </select> 
                     </div> 
                     <div class="mb-3"> 
@@ -101,6 +101,6 @@ if (!empty($_POST['btnRegistrar'])) { // Check if the registration form was subm
         </div> 
     </div> 
 </div> 
-<?php // Close the page body and layout wrappers
-require_once __DIR__ . '/inc/footer.inc.php'; // Include footer scripts and closing tags
+<?php // Cierra el cuerpo de la página y las etiquetas del contenedor principal
+require_once __DIR__ . '/inc/footer.inc.php'; // Incluye los scripts finales de pie de página y etiquetas de cierre
 ?>

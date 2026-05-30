@@ -1,6 +1,6 @@
-<?php // Start PHP script to clear user session
-session_start(); // Initialize session to access active variables
-session_destroy(); // Destroy all session data completely
-header('Location: login.php'); // Redirect user to the login screen
-exit(); // Stop further script execution
+<?php // Inicia el script PHP para limpiar la sesión del usuario
+session_start(); // Inicializa la sesión para acceder a las variables activas
+session_destroy(); // Destruye todos los datos de la sesión por completo
+header('Location: login.php'); // Redirecciona al usuario a la pantalla de inicio de sesión
+exit(); // Detiene la ejecución adicional del script
 ?>

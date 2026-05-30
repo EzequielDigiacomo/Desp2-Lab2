@@ -1,21 +1,21 @@
-<?php // Start PHP script for dashboard homepage
-require_once __DIR__ . '/inc/header.inc.php'; // Include header layout with security guards and connection
+<?php // Inicia el script PHP para la página de inicio del panel de control
+require_once __DIR__ . '/inc/header.inc.php'; // Incluye el diseño de cabecera con guardias de seguridad y conexión
 
-// Fetch total number of projects in database
-$SQL_Total = "SELECT COUNT(*) as Total FROM proyectos WHERE Eliminado = 0"; // SQL query to count active projects
-$rs_Total = mysqli_query($vConexion, $SQL_Total); // Execute total count query
-$data_Total = mysqli_fetch_array($rs_Total); // Fetch result row into array
-$total_proyectos = $data_Total['Total']; // Store total count in variable
+// Obtiene el número total de proyectos activos en la base de datos
+$SQL_Total = "SELECT COUNT(*) as Total FROM proyectos WHERE Eliminado = 0"; // Consulta SQL para contar proyectos activos
+$rs_Total = mysqli_query($vConexion, $SQL_Total); // Ejecuta la consulta de conteo total
+$data_Total = mysqli_fetch_array($rs_Total); // Obtiene la fila del resultado en un array
+$total_proyectos = $data_Total['Total']; // Almacena el conteo total en una variable
 
-// Fetch project count grouped by country
-$SQL_Paises = "SELECT P.Denominacion as Pais, COUNT(PR.Id) as Cantidad " . // SELECT country and aggregate project count
-              "FROM proyectos PR " . // FROM projects table
-              "JOIN empresas E ON PR.IdEmpresa = E.Id " . // JOIN companies to link project to client
-              "JOIN paises P ON E.IdPais = P.Id " . // JOIN countries through company reference
-              "WHERE PR.Eliminado = 0 " . // Exclude deleted projects
-              "GROUP BY P.Denominacion " . // Group results by country name
-              "ORDER BY Cantidad DESC"; // Sort by count in descending order
-$rs_Paises = mysqli_query($vConexion, $SQL_Paises); // Execute country query on connection
+// Obtiene la cantidad de proyectos agrupados por país
+$SQL_Paises = "SELECT P.Denominacion as Pais, COUNT(PR.Id) as Cantidad " . // Selecciona el país y realiza el conteo agregado de proyectos
+              "FROM proyectos PR " . // Desde la tabla proyectos
+              "JOIN empresas E ON PR.IdEmpresa = E.Id " . // JOIN con empresas para vincular el proyecto con el cliente
+              "JOIN paises P ON E.IdPais = P.Id " . // JOIN con países a través de la referencia de la empresa
+              "WHERE PR.Eliminado = 0 " . // Excluye proyectos eliminados
+              "GROUP BY P.Denominacion " . // Agrupa los resultados por el nombre del país
+              "ORDER BY Cantidad DESC"; // Ordena por la cantidad en orden descendente
+$rs_Paises = mysqli_query($vConexion, $SQL_Paises); // Ejecuta la consulta de países en la conexión
 ?>
 <h1 class="h3 mb-3">Has ingresado al panel de administración.</h1> 
 <div class="row"> 
@@ -37,21 +37,21 @@ $rs_Paises = mysqli_query($vConexion, $SQL_Paises); // Execute country query on 
                                 </div> 
                             </div> 
                         </div> 
-                        <h1 class="mt-1 mb-3"><?php echo $total_proyectos; // Output total active projects ?></h1> 
-                        <?php // Loop through countries to display project distribution
-                        while ($row_pais = mysqli_fetch_array($rs_Paises)) { // Retrieve next country row
+                        <h1 class="mt-1 mb-3"><?php echo $total_proyectos; // Muestra el total de proyectos activos ?></h1> 
+                        <?php // Recorre los países para mostrar la distribución de proyectos
+                        while ($row_pais = mysqli_fetch_array($rs_Paises)) { // Obtiene la siguiente fila de país
                         ?> 
                         <div class="mb-1"> 
-                            <span class="badge bg-success me-2"><?php echo $row_pais['Cantidad']; // Output project count for country ?></span> 
-                            <span class="text-muted"><?php echo $row_pais['Pais']; // Output country name ?></span> 
+                            <span class="badge bg-success me-2"><?php echo $row_pais['Cantidad']; // Muestra el conteo de proyectos para el país ?></span> 
+                            <span class="text-muted"><?php echo $row_pais['Pais']; // Muestra el nombre del país ?></span> 
                         </div> 
-                        <?php } // End countries count display loop ?> 
+                        <?php } // Fin del bucle de visualización del conteo de países ?> 
                     </div> 
                 </div> 
             </div> 
         </div> 
     </div> 
 </div> 
-<?php // End page body content
-require_once __DIR__ . '/inc/footer.inc.php'; // Include footer template and close tags
+<?php // Fin del contenido del cuerpo de la página
+require_once __DIR__ . '/inc/footer.inc.php'; // Incluye la plantilla de pie de página y cierra las etiquetas
 ?>

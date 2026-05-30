@@ -1,74 +1,74 @@
-<?php // Start PHP script to setup database
-// Enable error reporting to diagnose issues
-ini_set('display_errors', 1); // Enable display of errors on page
-ini_set('display_startup_errors', 1); // Enable display of startup errors
-error_reporting(E_ALL); // Report all types of errors
+<?php // Inicia el script PHP para configurar la base de datos
+// Habilita el reporte de errores para diagnosticar problemas
+ini_set('display_errors', 1); // Habilita la visualización de errores en la página
+ini_set('display_startup_errors', 1); // Habilita la visualización de errores de inicio
+error_reporting(E_ALL); // Reporta todos los tipos de errores
 
-// Connect to MariaDB/MySQL server without database parameter first
-$link = mysqli_connect('localhost', 'root', ''); // Attempt connection to MySQL server
-if (!$link) { // Check if connection failed
-    die('Could not connect to MySQL: ' . mysqli_connect_error()); // Terminate and show error
-} // End connection check
+// Conecta al servidor MariaDB/MySQL sin el parámetro de base de datos primero
+$link = mysqli_connect('localhost', 'root', ''); // Intenta la conexión al servidor MySQL
+if (!$link) { // Verifica si la conexión falló
+    die('Could not connect to MySQL: ' . mysqli_connect_error()); // Termina y muestra el error
+} // Fin del chequeo de conexión
 
-// Create the database if it does not exist
-$sql_db = "CREATE DATABASE IF NOT EXISTS `consultora` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci"; // DB creation query
-if (mysqli_query($link, $sql_db)) { // Execute database creation query
-    echo "Database consultora created or already exists.\n"; // Output success message
-} else { // Handle database creation failure
-    die('Error creating database: ' . mysqli_error($link)); // Terminate and show error
-} // End DB creation check
+// Crea la base de datos si no existe
+$sql_db = "CREATE DATABASE IF NOT EXISTS `consultora` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci"; // Consulta de creación de base de datos
+if (mysqli_query($link, $sql_db)) { // Ejecuta la consulta de creación de base de datos
+    echo "Database consultora created or already exists.\n"; // Muestra un mensaje de éxito
+} else { // Manejo de fallas en la creación de la base de datos
+    die('Error creating database: ' . mysqli_error($link)); // Termina y muestra el error
+} // Fin del chequeo de creación de base de datos
 
-// Select the database
-if (!mysqli_select_db($link, 'consultora')) { // Attempt to select database
-    die('Error selecting database: ' . mysqli_error($link)); // Terminate on failure
-} // End select DB check
+// Selecciona la base de datos
+if (!mysqli_select_db($link, 'consultora')) { // Intenta seleccionar la base de datos
+    die('Error selecting database: ' . mysqli_error($link)); // Termina en caso de fallo
+} // Fin del chequeo de selección de base de datos
 
-// Check if basic tables already exist, if not, import consultora.sql
-$table_check = mysqli_query($link, "SHOW TABLES LIKE 'roles'"); // Check if table roles exists
-if (mysqli_num_rows($table_check) == 0) { // If table does not exist
-    echo "Importing base schema from consultora.sql...\n"; // Output status update
-    $base_sql = file_get_contents(__DIR__ . '/consultora.sql'); // Read base schema file
-    if ($base_sql === false) { // Check if file could not be read
-        die('Error reading consultora.sql'); // Terminate on read failure
-    } // End read check
-    if (mysqli_multi_query($link, $base_sql)) { // Execute multi-query import
-        do { // Loop through all query statements
-            if ($result = mysqli_store_result($link)) { // Store result if any
-                mysqli_free_result($result); // Free result set
-            } // End store check
-        } while (mysqli_next_result($link)); // Proceed to next query statement
-        echo "Base schema imported successfully.\n"; // Output success update
-    } else { // Handle base schema query failures
-        die('Error importing base schema: ' . mysqli_error($link)); // Terminate and show error
-    } // End multi-query execution
-} else { // If table roles already exists
-    echo "Base schema already present. Skipping consultora.sql import.\n"; // Output status skip
-} // End table existence check
+// Verifica si las tablas básicas ya existen, si no, importa consultora.sql
+$table_check = mysqli_query($link, "SHOW TABLES LIKE 'roles'"); // Verifica si la tabla roles existe
+if (mysqli_num_rows($table_check) == 0) { // Si la tabla no existe
+    echo "Importing base schema from consultora.sql...\n"; // Muestra el estado de la importación
+    $base_sql = file_get_contents(__DIR__ . '/consultora.sql'); // Lee el archivo del esquema base
+    if ($base_sql === false) { // Verifica si no se pudo leer el archivo
+        die('Error reading consultora.sql'); // Termina en caso de fallo en la lectura
+    } // Fin del chequeo de lectura
+    if (mysqli_multi_query($link, $base_sql)) { // Ejecuta la importación con multi-consulta
+        do { // Bucle para procesar todas las sentencias de consulta
+            if ($result = mysqli_store_result($link)) { // Almacena el resultado si existe alguno
+                mysqli_free_result($result); // Libera el conjunto de resultados
+            } // Fin del chequeo de almacenamiento
+        } while (mysqli_next_result($link)); // Pasa a la siguiente sentencia de consulta
+        echo "Base schema imported successfully.\n"; // Muestra mensaje de éxito de importación
+    } else { // Manejo de fallas en las consultas del esquema base
+        die('Error importing base schema: ' . mysqli_error($link)); // Termina y muestra el error
+    } // Fin del envío de la multi-consulta
+} else { // Si la tabla roles ya existe
+    echo "Base schema already present. Skipping consultora.sql import.\n"; // Muestra estado de omisión
+} // Fin del chequeo de existencia de tablas
 
-// Re-connect to ensure previous multi-queries are clean and closed
-mysqli_close($link); // Close database connection
-$link = mysqli_connect('localhost', 'root', '', 'consultora'); // Open fresh connection
-if (!$link) { // Check if fresh connection failed
-    die('Could not reconnect to database: ' . mysqli_connect_error()); // Terminate on failure
-} // End fresh connection check
+// Vuelve a conectar para asegurar que las multi-consultas previas estén limpias y cerradas
+mysqli_close($link); // Cierra la conexión a la base de datos
+$link = mysqli_connect('localhost', 'root', '', 'consultora'); // Abre una nueva conexión
+if (!$link) { // Verifica si la nueva conexión falló
+    die('Could not reconnect to database: ' . mysqli_connect_error()); // Termina en caso de fallo
+} // Fin del chequeo de reconexión
 
-// Import the tables extension and sample data
-echo "Importing table extensions from consultora_tablas.sql...\n"; // Output status update
-$ext_sql = file_get_contents(__DIR__ . '/consultora_tablas.sql'); // Read extension schema file
-if ($ext_sql === false) { // Check if file could not be read
-    die('Error reading consultora_tablas.sql'); // Terminate on read failure
-} // End read check
-if (mysqli_multi_query($link, $ext_sql)) { // Execute multi-query extension import
-    do { // Loop through all queries
-        if ($result = mysqli_store_result($link)) { // Store result if any
-            mysqli_free_result($result); // Free result set
-        } // End store check
-    } while (mysqli_next_result($link)); // Proceed to next query statement
-    echo "Table extensions and sample data imported successfully.\n"; // Output success message
-} else { // Handle extension schema query failures
-    die('Error importing table extensions: ' . mysqli_error($link)); // Terminate and show error
-} // End multi-query execution
+// Importa la extensión de tablas y los datos de prueba
+echo "Importing table extensions from consultora_tablas.sql...\n"; // Muestra estado de la importación
+$ext_sql = file_get_contents(__DIR__ . '/consultora_tablas.sql'); // Lee el archivo de extensión del esquema
+if ($ext_sql === false) { // Verifica si el archivo no pudo ser leído
+    die('Error reading consultora_tablas.sql'); // Termina en caso de fallo en la lectura
+} // Fin del chequeo de lectura
+if (mysqli_multi_query($link, $ext_sql)) { // Ejecuta la importación de extensión con multi-consulta
+    do { // Bucle para recorrer todas las consultas
+        if ($result = mysqli_store_result($link)) { // Almacena el resultado si existe alguno
+            mysqli_free_result($result); // Libera el conjunto de resultados
+        } // Fin del chequeo de almacenamiento
+    } while (mysqli_next_result($link)); // Pasa a la siguiente sentencia de consulta
+    echo "Table extensions and sample data imported successfully.\n"; // Muestra mensaje de éxito
+} else { // Manejo de fallas en las consultas de extensión
+    die('Error importing table extensions: ' . mysqli_error($link)); // Termina y muestra el error
+} // Fin de la ejecución de la multi-consulta
 
-mysqli_close($link); // Close database connection
-echo "Database setup completed successfully!\n"; // Output final completion message
+mysqli_close($link); // Cierra la conexión a la base de datos
+echo "Database setup completed successfully!\n"; // Muestra mensaje final de finalización
 ?>
