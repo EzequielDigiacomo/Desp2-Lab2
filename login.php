@@ -1,7 +1,7 @@
 <?php // Inicia el script PHP para la página de inicio de sesión
 session_start(); // Inicializa el almacenamiento de sesiones
-require_once __DIR__ . '/funciones/conexion.php'; // Incluye la utilidad para construir la conexión
-require_once __DIR__ . '/funciones/library.php'; // Incluye la biblioteca de funciones compartidas
+require_once 'funciones/conexion.php'; // Incluye la utilidad para construir la conexión
+require_once 'funciones/library.php'; // Incluye la biblioteca de funciones compartidas
 $vConexion = ConexionBD(); // Establece la conexión a la base de datos
 $Error_Credenciales = false; // Bandera para rastrear errores de coincidencia de credenciales
 $Error_Permisos = false; // Bandera para rastrear errores de permisos de rol
@@ -86,6 +86,9 @@ if (!empty($_POST['BotonLogin'])) { // Verifica si el formulario de inicio de se
                                             <input class="btn btn-lg btn-primary" type="submit" name="BotonLogin" value="Ingresar">
                                         </div>
                                     </form>
+                                    <div class="text-center mt-3">
+                                        ¿No tienes una cuenta? <a href="registro.php">Regístrate aquí</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

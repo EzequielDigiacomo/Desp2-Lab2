@@ -1,5 +1,5 @@
 <?php // Inicia el script PHP para la página del listado de empresas
-require_once __DIR__ . '/inc/header.inc.php'; // Incluye el encabezado con guardias de sesión y conexión a la base de datos
+require_once 'inc/header.inc.php'; // Incluye el encabezado con guardias de sesión y conexión a la base de datos
 $empresas_lista = Listar_Empresas($vConexion); // Obtiene la lista de empresas activas de la base de datos
 $total_empresas = count($empresas_lista); // Cuenta la cantidad total de empresas activas
 ?>
@@ -72,5 +72,5 @@ $total_empresas = count($empresas_lista); // Cuenta la cantidad total de empresa
     </div> 
 </div> 
 <?php // Cierra los contenedores HTML y carga las dependencias
-require_once __DIR__ . '/inc/footer.inc.php'; // Incluye el archivo de plantilla del pie de página
+require_once 'inc/footer.inc.php'; // Incluye el archivo de plantilla del pie de página
 ?>

@@ -6,8 +6,8 @@ if (empty($_SESSION['Usuario'])) { // Verifica si la variable de sesión del usu
     header('Location: login.php'); // Redirecciona al usuario no autenticado a la pantalla de inicio de sesión
     exit(); // Detiene la ejecución adicional del script
 } // Fin del chequeo de la guardia de inicio de sesión
-require_once __DIR__ . '/../funciones/conexion.php'; // Incluye la función de conexión a la base de datos
-require_once __DIR__ . '/../funciones/library.php'; // Incluye la biblioteca de operaciones de base de datos
+require_once 'funciones/conexion.php'; // Incluye la función de conexión a la base de datos
+require_once 'funciones/library.php'; // Incluye la biblioteca de operaciones de base de datos
 $vConexion = ConexionBD(); // Establece la conexión a la base de datos
 ?>
 <!DOCTYPE html>
@@ -29,7 +29,7 @@ $vConexion = ConexionBD(); // Establece la conexión a la base de datos
 <body>
     <div class="wrapper"> 
         <?php // Comienza la inclusión del panel de navegación lateral
-        require_once __DIR__ . '/sidebar.inc.php'; // Muestra el panel lateral de navegación
+        require_once 'sidebar.inc.php'; // Muestra el panel lateral de navegación
         ?> 
         <div class="main"> 
             <nav class="navbar navbar-expand navbar-light navbar-bg"> 

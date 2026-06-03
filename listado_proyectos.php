@@ -1,5 +1,5 @@
 <?php // Inicia el script PHP para la página del listado de proyectos
-require_once __DIR__ . '/inc/header.inc.php'; // Incluye el encabezado con guardias de seguridad y conexión a la base de datos
+require_once 'inc/header.inc.php'; // Incluye el encabezado con guardias de seguridad y conexión a la base de datos
 $proyectos_lista = Listar_Proyectos($vConexion); // Obtiene todos los proyectos no eliminados de la base de datos
 $total_proyectos = count($proyectos_lista); // Cuenta la cantidad total de proyectos obtenidos
 ?>
@@ -35,6 +35,12 @@ $total_proyectos = count($proyectos_lista); // Cuenta la cantidad total de proye
                     <?php // Recorre cada proyecto en la lista
                     $cnt = 1; // Inicializa el contador de filas
                     foreach ($proyectos_lista as $proyecto) { // Itera sobre la colección de filas de proyectos
+                        // Simulación de cancelación sin tocar la BD
+                        if (isset($_GET['id_cancelado_simulado']) && intval($_GET['id_cancelado_simulado']) == $proyecto['ID']) {
+                            $proyecto['ESTADO_ID'] = 4;
+                            $proyecto['ESTADO_NOMBRE'] = 'Cancelado';
+                        }
+
                         // Asigna la clase de color del badge según el ID de estado actual
                         $badge_class = 'bg-secondary'; // Establece la clase de color por defecto
                         if ($proyecto['ESTADO_ID'] == 1) { // Verifica si el estado es Análisis Iniciado (1)
@@ -97,5 +103,5 @@ $total_proyectos = count($proyectos_lista); // Cuenta la cantidad total de proye
     </div> 
 </div> 
 <?php // Cierra los contenedores HTML y carga las dependencias
-require_once __DIR__ . '/inc/footer.inc.php'; // Incluye el pie de página y etiquetas de cierre
+require_once 'inc/footer.inc.php'; // Incluye el pie de página y etiquetas de cierre
 ?>

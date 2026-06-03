@@ -11,15 +11,15 @@ if ($_SESSION['Usuario_Nivel'] != 1) { // Verifica si el usuario autenticado no 
     exit(); // Finaliza la ejecución del script
 } // Fin del control de acceso del Administrador
 
-require_once __DIR__ . '/funciones/conexion.php'; // Incluye la utilidad de conexión a la base de datos
-require_once __DIR__ . '/funciones/library.php'; // Incluye la biblioteca de funciones compartidas
+require_once 'funciones/conexion.php'; // Incluye la utilidad de conexión a la base de datos
+require_once 'funciones/library.php'; // Incluye la biblioteca de funciones compartidas
 
 $vConexion = ConexionBD(); // Establece la conexión a la base de datos
 
 if (isset($_GET['id']) && intval($_GET['id']) > 0) { // Verifica si se proporciona un parámetro de ID de proyecto válido en la URL
     $idProyecto = intval($_GET['id']); // Fuerza el ID a entero para mayor seguridad en la validación
     $exito = Cancelar_Proyecto($vConexion, $idProyecto); // Intenta cambiar el estado del proyecto a Cancelado (4)
-    
+
     if ($exito) { // Verifica si la operación de actualización fue exitosa
         $_SESSION['Mensaje_Proyecto'] = "El proyecto ha sido cancelado con éxito."; // Guarda el mensaje de éxito en la sesión
         $_SESSION['Estilo_Proyecto'] = "success"; // Define la clase de estilo como 'success'

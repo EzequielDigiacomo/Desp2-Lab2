@@ -1,5 +1,5 @@
 <?php // Inicia el script PHP para la página de inicio del panel de control
-require_once __DIR__ . '/inc/header.inc.php'; // Incluye el diseño de cabecera con guardias de seguridad y conexión
+require_once 'inc/header.inc.php'; // Incluye el diseño de cabecera con guardias de seguridad y conexión
 
 // Obtiene el número total de proyectos activos en la base de datos
 $SQL_Total = "SELECT COUNT(*) as Total FROM proyectos WHERE Eliminado = 0"; // Consulta SQL para contar proyectos activos
@@ -17,6 +17,7 @@ $SQL_Paises = "SELECT P.Denominacion as Pais, COUNT(PR.Id) as Cantidad " . // Se
               "ORDER BY Cantidad DESC"; // Ordena por la cantidad en orden descendente
 $rs_Paises = mysqli_query($vConexion, $SQL_Paises); // Ejecuta la consulta de países en la conexión
 ?>
+
 <h1 class="h3 mb-3">Has ingresado al panel de administración.</h1> 
 <div class="row"> 
     <div class="col-12 col-md-6 col-lg-4"> 
@@ -53,5 +54,5 @@ $rs_Paises = mysqli_query($vConexion, $SQL_Paises); // Ejecuta la consulta de pa
     </div> 
 </div> 
 <?php // Fin del contenido del cuerpo de la página
-require_once __DIR__ . '/inc/footer.inc.php'; // Incluye la plantilla de pie de página y cierra las etiquetas
+require_once 'inc/footer.inc.php'; // Incluye la plantilla de pie de página y cierra las etiquetas
 ?>

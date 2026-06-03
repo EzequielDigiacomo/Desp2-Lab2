@@ -1,11 +1,12 @@
 <?php // Inicia la biblioteca de funciones compartidas de PHP
 // Función para autenticar a un usuario mediante la verificación del hash de la contraseña
-function DatosLogin_Hash($vUsuario, $vClave, $vConexion) { // Declaración de la función con parámetros
+function DatosLogin_Hash($vUsuario, $vClave, $vConexion)
+{ // Declaración de la función con parámetros
     $Usuario = array(); // Inicializa un array vacío para los detalles del usuario
     $vUsuario = mysqli_real_escape_string($vConexion, $vUsuario); // Sanitiza la entrada del usuario para mayor seguridad
     $SQL = "SELECT U.IdUsuario, U.Nombre, U.Apellido, U.IdRol, U.Imagen, U.Clave, U.Activo, R.Denominacion as NombreRol " . // Selecciona los campos del usuario y realiza un JOIN con roles
-           "FROM usuarios U JOIN roles R ON U.IdRol = R.Id " . // Sentencia JOIN que vincula usuarios con roles
-           "WHERE U.Usuario = '$vUsuario' AND U.Eliminado = 0"; // Cláusula WHERE usando el nombre de usuario sanitizado
+        "FROM usuarios U JOIN roles R ON U.IdRol = R.Id " . // Sentencia JOIN que vincula usuarios con roles
+        "WHERE U.Usuario = '$vUsuario' AND U.Eliminado = 0"; // Cláusula WHERE usando el nombre de usuario sanitizado
     $rs = mysqli_query($vConexion, $SQL); // Ejecuta la consulta en la conexión
     if ($rs && $data = mysqli_fetch_array($rs)) { // Si la consulta tiene éxito y retorna una fila
         if (password_verify($vClave, $data['Clave'])) { // Verifica si la contraseña coincide usando bcrypt
@@ -22,7 +23,8 @@ function DatosLogin_Hash($vUsuario, $vClave, $vConexion) { // Declaración de la
 } // Fin de la función DatosLogin_Hash
 
 // Función para obtener todos los países para listados y desplegables
-function Listar_Paises($vConexion) { // Declaración de la función
+function Listar_Paises($vConexion)
+{ // Declaración de la función
     $Listado = array(); // Inicializa una lista de países vacía
     $SQL = "SELECT * FROM paises WHERE Eliminado = 0 ORDER BY Denominacion"; // Consulta para seleccionar países no eliminados alfabéticamente
     $rs = mysqli_query($vConexion, $SQL); // Ejecuta la consulta en la conexión
@@ -36,7 +38,8 @@ function Listar_Paises($vConexion) { // Declaración de la función
 } // Fin de la función Listar_Paises
 
 // Función para obtener todos los roles
-function Listar_Roles($vConexion) { // Declaración de la función
+function Listar_Roles($vConexion)
+{ // Declaración de la función
     $Listado = array(); // Inicializa una lista de roles vacía
     $SQL = "SELECT * FROM roles ORDER BY Denominacion"; // Consulta para seleccionar todos los roles alfabéticamente
     $rs = mysqli_query($vConexion, $SQL); // Ejecuta la consulta
@@ -50,12 +53,13 @@ function Listar_Roles($vConexion) { // Declaración de la función
 } // Fin de la función Listar_Roles
 
 // Función para listar todos los usuarios no eliminados
-function Listar_Usuarios($vConexion) { // Declaración de la función
+function Listar_Usuarios($vConexion)
+{ // Declaración de la función
     $Listado = array(); // Inicializa una lista de usuarios vacía
     $SQL = "SELECT U.IdUsuario, U.Nombre, U.Apellido, U.Usuario, U.Imagen, R.Denominacion as Rol " . // Campos de la consulta
-           "FROM usuarios U JOIN roles R ON U.IdRol = R.Id " . // JOIN con la tabla de roles
-           "WHERE U.Eliminado = 0 " . // Excluye usuarios eliminados lógicamente
-           "ORDER BY U.Apellido, U.Nombre"; // Ordena por apellido y luego por nombre
+        "FROM usuarios U JOIN roles R ON U.IdRol = R.Id " . // JOIN con la tabla de roles
+        "WHERE U.Eliminado = 0 " . // Excluye usuarios eliminados lógicamente
+        "ORDER BY U.Apellido, U.Nombre"; // Ordena por apellido y luego por nombre
     $rs = mysqli_query($vConexion, $SQL); // Ejecuta la consulta
     $i = 0; // Inicializa el contador
     while ($data = mysqli_fetch_array($rs)) { // Bucle sobre los usuarios obtenidos
@@ -71,15 +75,16 @@ function Listar_Usuarios($vConexion) { // Declaración de la función
 } // Fin de la función Listar_Usuarios
 
 // Función para listar todas las empresas no eliminadas
-function Listar_Empresas($vConexion) { // Declaración de la función
+function Listar_Empresas($vConexion)
+{ // Declaración de la función
     $Listado = array(); // Inicializa una lista vacía
     $SQL = "SELECT E.Id, E.Denominacion, E.FechaCarga, E.UsuarioCarga, P.Denominacion as Pais, " . // Campos de SELECT
-           "U.Nombre as U_Nombre, U.Apellido as U_Apellido, U.Imagen as U_Imagen " . // Campos del creador
-           "FROM empresas E " . // Desde la tabla empresas
-           "JOIN paises P ON E.IdPais = P.Id " . // JOIN con la tabla de países
-           "LEFT JOIN usuarios U ON E.UsuarioCarga = U.Usuario " . // JOIN con la tabla de usuarios en el nombre de usuario
-           "WHERE E.Eliminado = 0 " . // Excluye empresas eliminadas
-           "ORDER BY E.Denominacion ASC"; // Ordena alfabéticamente por denominación
+        "U.Nombre as U_Nombre, U.Apellido as U_Apellido, U.Imagen as U_Imagen " . // Campos del creador
+        "FROM empresas E " . // Desde la tabla empresas
+        "JOIN paises P ON E.IdPais = P.Id " . // JOIN con la tabla de países
+        "LEFT JOIN usuarios U ON E.UsuarioCarga = U.Usuario " . // JOIN con la tabla de usuarios en el nombre de usuario
+        "WHERE E.Eliminado = 0 " . // Excluye empresas eliminadas
+        "ORDER BY E.Denominacion ASC"; // Ordena alfabéticamente por denominación
     $rs = mysqli_query($vConexion, $SQL); // Ejecuta la consulta en la base de datos
     $i = 0; // Inicializa el iterador
     while ($data = mysqli_fetch_array($rs)) { // Bucle sobre los resultados
@@ -96,19 +101,20 @@ function Listar_Empresas($vConexion) { // Declaración de la función
 } // Fin de la función Listar_Empresas
 
 // Función para listar todos los proyectos no eliminados
-function Listar_Proyectos($vConexion) { // Declaración de la función
+function Listar_Proyectos($vConexion)
+{ // Declaración de la función
     $Listado = array(); // Inicializa el array vacío de proyectos
     $SQL = "SELECT PR.Id, PR.Denominacion, PR.FechaCarga, PR.Prioridad, " . // Selecciona metadatos del proyecto
-           "E.Denominacion as Empresa, P.Denominacion as Pais, " . // Selecciona la empresa y país asociados
-           "U.Nombre as L_Nombre, U.Apellido as L_Apellido, U.Imagen as L_Imagen, " . // Selecciona campos del líder del proyecto
-           "ES.Id as IdEstado, ES.Denominacion as Estado " . // Selecciona detalles del estado
-           "FROM proyectos PR " . // Desde la tabla proyectos
-           "JOIN empresas E ON PR.IdEmpresa = E.Id " . // JOIN con empresas
-           "JOIN paises P ON E.IdPais = P.Id " . // JOIN con países a través de empresas
-           "JOIN usuarios U ON PR.IdLider = U.IdUsuario " . // JOIN con usuario líder
-           "JOIN estados ES ON PR.IdEstado = ES.Id " . // JOIN con estados de proyectos
-           "WHERE PR.Eliminado = 0 " . // Excluye proyectos eliminados lógicamente
-           "ORDER BY PR.FechaCarga ASC"; // Ordena mostrando los proyectos más antiguos primero
+        "E.Denominacion as Empresa, P.Denominacion as Pais, " . // Selecciona la empresa y país asociados
+        "U.Nombre as L_Nombre, U.Apellido as L_Apellido, U.Imagen as L_Imagen, " . // Selecciona campos del líder del proyecto
+        "ES.Id as IdEstado, ES.Denominacion as Estado " . // Selecciona detalles del estado
+        "FROM proyectos PR " . // Desde la tabla proyectos
+        "JOIN empresas E ON PR.IdEmpresa = E.Id " . // JOIN con empresas
+        "JOIN paises P ON E.IdPais = P.Id " . // JOIN con países a través de empresas
+        "JOIN usuarios U ON PR.IdLider = U.IdUsuario " . // JOIN con usuario líder
+        "JOIN estados ES ON PR.IdEstado = ES.Id " . // JOIN con estados de proyectos
+        "WHERE PR.Eliminado = 0 " . // Excluye proyectos eliminados lógicamente
+        "ORDER BY PR.FechaCarga ASC"; // Ordena mostrando los proyectos más antiguos primero
     $rs = mysqli_query($vConexion, $SQL); // Ejecuta la consulta
     $i = 0; // Inicializa el contador
     while ($data = mysqli_fetch_array($rs)) { // Bucle sobre los proyectos
@@ -128,11 +134,12 @@ function Listar_Proyectos($vConexion) { // Declaración de la función
 } // Fin de la función Listar_Proyectos
 
 // Función para obtener todos los líderes de proyecto (Administradores y Líderes)
-function Listar_Lideres($vConexion) { // Declaración de la función
+function Listar_Lideres($vConexion)
+{ // Declaración de la función
     $Listado = array(); // Inicializa el array de líderes
     $SQL = "SELECT IdUsuario, Nombre, Apellido FROM usuarios " . // Campos de consulta
-           "WHERE IdRol IN (1, 2) AND Eliminado = 0 " . // Filtra por roles Admin (1) o Líder (2)
-           "ORDER BY Apellido, Nombre"; // Ordena alfabéticamente por apellido y luego por nombre
+        "WHERE IdRol IN (2) AND Eliminado = 0 " . // Filtra por roles Admin (1) o Líder (2)
+        "ORDER BY Apellido, Nombre"; // Ordena alfabéticamente por apellido y luego por nombre
     $rs = mysqli_query($vConexion, $SQL); // Ejecuta la consulta
     $i = 0; // Inicializa el contador del bucle
     while ($data = mysqli_fetch_array($rs)) { // Bucle sobre los líderes obtenidos
@@ -144,13 +151,14 @@ function Listar_Lideres($vConexion) { // Declaración de la función
 } // Fin de la función Listar_Lideres
 
 // Función para insertar un nuevo registro de empresa con sanitización y validación
-function Insertar_Empresa($vConexion, $Denominacion, $IdPais, $Observaciones, $UsuarioCarga) { // Declaración de la función
+function Insertar_Empresa($vConexion, $Denominacion, $IdPais, $Observaciones, $UsuarioCarga)
+{ // Declaración de la función
     $Denominacion = mysqli_real_escape_string($vConexion, trim(strip_tags($Denominacion))); // Limpia la denominación
     $IdPais = intval($IdPais); // Fuerza la conversión a entero
     $Observaciones = mysqli_real_escape_string($vConexion, trim(strip_tags($Observaciones))); // Limpia el texto de observaciones
     $UsuarioCarga = mysqli_real_escape_string($vConexion, trim(strip_tags($UsuarioCarga))); // Limpia el nombre de usuario que realiza la carga
     $SQL = "INSERT INTO empresas (Denominacion, IdPais, Observaciones, FechaCarga, UsuarioCarga, Eliminado) " . // Declaración de consulta
-           "VALUES ('$Denominacion', $IdPais, '$Observaciones', NOW(), '$UsuarioCarga', 0)"; // Definición de valores
+        "VALUES ('$Denominacion', $IdPais, '$Observaciones', NOW(), '$UsuarioCarga', 0)"; // Definición de valores
     if (mysqli_query($vConexion, $SQL)) { // Ejecuta la consulta de inserción
         return true; // Retorna true en caso de éxito
     } else { // Manejo de fallos en la consulta
@@ -159,7 +167,8 @@ function Insertar_Empresa($vConexion, $Denominacion, $IdPais, $Observaciones, $U
 } // Fin de la función Insertar_Empresa
 
 // Función para insertar un nuevo registro de proyecto
-function Insertar_Proyecto($vConexion, $Denominacion, $IdEmpresa, $IdLider, $Observaciones, $Prioridad, $UsuarioCarga) { // Declaración de la función
+function Insertar_Proyecto($vConexion, $Denominacion, $IdEmpresa, $IdLider, $Observaciones, $Prioridad, $UsuarioCarga)
+{ // Declaración de la función
     $Denominacion = mysqli_real_escape_string($vConexion, trim(strip_tags($Denominacion))); // Limpia el nombre del proyecto
     $IdEmpresa = intval($IdEmpresa); // Limpia el ID de la empresa
     $IdLider = intval($IdLider); // Limpia el ID del líder
@@ -167,7 +176,7 @@ function Insertar_Proyecto($vConexion, $Denominacion, $IdEmpresa, $IdLider, $Obs
     $Prioridad = intval($Prioridad) > 0 ? 1 : 0; // Fuerza el valor booleano de prioridad (0 o 1)
     $UsuarioCarga = mysqli_real_escape_string($vConexion, trim(strip_tags($UsuarioCarga))); // Limpia el nombre de usuario del creador
     $SQL = "INSERT INTO proyectos (Denominacion, IdEmpresa, IdLider, Observaciones, Prioridad, IdEstado, FechaCarga, UsuarioCarga, Eliminado) " . // Estructura de INSERT
-           "VALUES ('$Denominacion', $IdEmpresa, $IdLider, '$Observaciones', $Prioridad, 1, NOW(), '$UsuarioCarga', 0)"; // El estado por defecto es Análisis Iniciado (1)
+        "VALUES ('$Denominacion', $IdEmpresa, $IdLider, '$Observaciones', $Prioridad, 1, NOW(), '$UsuarioCarga', 0)"; // El estado por defecto es Análisis Iniciado (1)
     if (mysqli_query($vConexion, $SQL)) { // Ejecuta la consulta de inserción
         return true; // Retorna true en caso de éxito
     } else { // Manejo de fallos en la consulta
@@ -176,7 +185,8 @@ function Insertar_Proyecto($vConexion, $Denominacion, $IdEmpresa, $IdLider, $Obs
 } // Fin de la función Insertar_Proyecto
 
 // Función para cancelar un proyecto existente (actualiza el ID de estado a 4)
-function Cancelar_Proyecto($vConexion, $IdProyecto) { // Declaración de la función
+function Cancelar_Proyecto($vConexion, $IdProyecto)
+{ // Declaración de la función
     $IdProyecto = intval($IdProyecto); // Fuerza la validación del ID como entero
     $SQL = "UPDATE proyectos SET IdEstado = 4 WHERE Id = $IdProyecto"; // Comando SQL para cambiar el estado a Cancelado (4)
     if (mysqli_query($vConexion, $SQL)) { // Ejecuta la consulta de actualización
@@ -187,7 +197,8 @@ function Cancelar_Proyecto($vConexion, $IdProyecto) { // Declaración de la func
 } // Fin de la función Cancelar_Proyecto
 
 // Función genérica de borrado lógico
-function BorrarLogico($vConexion, $Tabla, $Id) { // Declaración de la función con parámetros de conexión, nombre de tabla e ID
+function BorrarLogico($vConexion, $Tabla, $Id)
+{ // Declaración de la función con parámetros de conexión, nombre de tabla e ID
     $Tabla = mysqli_real_escape_string($vConexion, trim(strip_tags($Tabla))); // Limpia el nombre de la tabla para proteger la estructura de la consulta
     $Id = intval($Id); // Fuerza la estructura numérica de la clave primaria
     $SQL = "UPDATE `$Tabla` SET Eliminado = 1 WHERE Id = $Id"; // Consulta de borrado lógico (establece la bandera Eliminado a 1)
@@ -244,4 +255,37 @@ function BorrarFisico($vConexion, $Tabla, $Id) { // Inicio del código comentado
     } // Fin de la verificación de conexión
 } // Fin de la función
 */
+
+// Función para verificar si un usuario ya existe en la base de datos
+function Existe_Usuario($vUsuario, $vConexion)
+{
+    $vUsuario = mysqli_real_escape_string($vConexion, trim(strip_tags($vUsuario)));
+    $SQL = "SELECT IdUsuario FROM usuarios WHERE Usuario = '$vUsuario' AND Eliminado = 0";
+    $rs = mysqli_query($vConexion, $SQL);
+    if ($rs && mysqli_num_rows($rs) > 0) {
+        return true;
+    }
+    return false;
+}
+
+// Función para insertar un usuario con contraseña hasheada
+function Insertar_Usuario_Hash($vConexion, $vNombre, $vApellido, $vUsuario, $vClave, $vIdRol)
+{
+    $vNombre = mysqli_real_escape_string($vConexion, trim(strip_tags($vNombre)));
+    $vApellido = mysqli_real_escape_string($vConexion, trim(strip_tags($vApellido)));
+    $vUsuario = mysqli_real_escape_string($vConexion, trim(strip_tags($vUsuario)));
+    $vIdRol = intval($vIdRol);
+
+    // Hash de la contraseña con bcrypt
+    $vClaveHash = password_hash($vClave, PASSWORD_BCRYPT);
+
+    // Por defecto, le asignamos la imagen 'login.png' o vacía
+    $SQL = "INSERT INTO usuarios (Nombre, Apellido, Usuario, Clave, IdRol, Imagen, Activo, Eliminado) " .
+        "VALUES ('$vNombre', '$vApellido', '$vUsuario', '$vClaveHash', $vIdRol, 'login.png', 1, 0)";
+
+    if (mysqli_query($vConexion, $SQL)) {
+        return true;
+    }
+    return false;
+}
 ?>

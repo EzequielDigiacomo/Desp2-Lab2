@@ -11,8 +11,8 @@ if ($_SESSION['Usuario_Nivel'] != 1) { // Verifica si el usuario autenticado no 
     exit(); // Finaliza la ejecución del script
 } // Fin del control de acceso del Administrador
 
-require_once __DIR__ . '/funciones/conexion.php'; // Incluye la utilidad de conexión a la base de datos
-require_once __DIR__ . '/funciones/library.php'; // Incluye la biblioteca de funciones compartidas
+require_once 'funciones/conexion.php'; // Incluye la utilidad de conexión a la base de datos
+require_once 'funciones/library.php'; // Incluye la biblioteca de funciones compartidas
 
 $vConexion = ConexionBD(); // Establece la conexión a la base de datos
 

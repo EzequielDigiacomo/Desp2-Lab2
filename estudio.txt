@@ -1,0 +1,105 @@
+======================================================================
+ESTRUCTURA DE LA BASE DE DATOS: consultora
+======================================================================
+
+----------------------------------------------------------------------
+1. TABLAS MAESTRAS (Sin Dependencias)
+----------------------------------------------------------------------
+
+A) Tabla: roles
+   - Propósito: Almacena los distintos niveles/roles de usuario del sistema.
+   - Columnas:
+     * Id (INT, PK, AUTO_INCREMENT): Identificador único del rol.
+     * Denominacion (VARCHAR(50)): Nombre del rol.
+   - Datos por defecto:
+     * 1 -> Administrador
+     * 2 -> Lider
+     * 3 -> Analista Funcional
+     * 4 -> Programador/a
+
+B) Tabla: estados
+   - Propósito: Almacena los posibles estados de un proyecto.
+   - Columnas:
+     * Id (INT, PK, AUTO_INCREMENT): Identificador único del estado.
+     * Denominacion (VARCHAR(50)): Nombre del estado.
+   - Datos por defecto:
+     * 1 -> Analisis Iniciado
+     * 2 -> En Desarrollo
+     * 3 -> Terminado
+     * 4 -> Cancelado
+
+C) Tabla: paises
+   - Propósito: Almacena los países en los que opera la consultora.
+   - Columnas:
+     * Id (INT, PK, AUTO_INCREMENT): Identificador único del país.
+     * Denominacion (VARCHAR(50)): Nombre del país.
+   - Datos por defecto:
+     * 1 -> Argentina
+     * 2 -> Uruguay
+     * 3 -> Chile
+     * 4 -> Brasil
+
+----------------------------------------------------------------------
+2. TABLAS CON RELACIONES (Con Dependencias)
+----------------------------------------------------------------------
+
+D) Tabla: usuarios
+   - Propósito: Contiene la información de los usuarios registrados.
+   - Columnas:
+     * IdUsuario (INT, PK, AUTO_INCREMENT): Identificador único del usuario.
+     * Usuario (VARCHAR(50), UNIQUE): Nombre de usuario/login.
+     * Clave (VARCHAR(255)): Hash de la contraseña (bcrypt).
+     * Nombre (VARCHAR(50)): Nombre del usuario.
+     * Apellido (VARCHAR(50)): Apellido del usuario.
+     * IdRol (INT, FK): Rol del usuario (relacionado con roles.Id).
+     * Imagen (VARCHAR(100)): Nombre de archivo de la foto del usuario.
+     * Activo (TINYINT, Default 1): Estado de la cuenta (1=Activo, 0=Inactivo).
+     * Eliminado (TINYINT, Default 0): Bandera de borrado lógico (1=Eliminado, 0=No).
+   - Relaciones:
+     * FK: IdRol -> roles.Id (Un usuario tiene un rol asignado).
+
+E) Tabla: empresas
+   - Propósito: Clientes o empresas para las cuales la consultora hace proyectos.
+   - Columnas:
+     * Id (INT, PK, AUTO_INCREMENT): Identificador único de la empresa.
+     * Denominacion (VARCHAR(100)): Nombre de la empresa.
+     * IdPais (INT, FK): País de origen de la empresa (relacionado con paises.Id).
+     * Observaciones (TEXT, NULL): Detalles adicionales.
+     * FechaCarga (DATETIME): Fecha y hora del registro.
+     * UsuarioCarga (VARCHAR(50)): Nombre del usuario que cargó el registro.
+     * Eliminado (TINYINT, Default 0): Bandera de borrado lógico.
+   - Relaciones:
+     * FK: IdPais -> paises.Id (Una empresa pertenece a un país).
+
+F) Tabla: proyectos
+   - Propósito: Proyectos que desarrolla la consultora para las empresas.
+   - Columnas:
+     * Id (INT, PK, AUTO_INCREMENT): Identificador único del proyecto.
+     * Denominacion (VARCHAR(100)): Nombre del proyecto.
+     * IdEmpresa (INT, FK): Empresa cliente (relacionado con empresas.Id).
+     * IdLider (INT, FK): Usuario líder asignado (relacionado con usuarios.IdUsuario).
+     * Observaciones (TEXT, NULL): Detalles adicionales.
+     * Prioridad (TINYINT, Default 0): Indicador si es urgente (1=Prioridad, 0=Normal).
+     * IdEstado (INT, FK, Default 1): Estado actual (relacionado con estados.Id).
+     * FechaCarga (DATETIME): Fecha y hora de creación.
+     * UsuarioCarga (VARCHAR(50)): Nombre del usuario que cargó el proyecto.
+     * Eliminado (TINYINT, Default 0): Bandera de borrado lógico.
+   - Relaciones:
+     * FK: IdEmpresa -> empresas.Id (El proyecto pertenece a una empresa).
+     * FK: IdLider -> usuarios.IdUsuario (El proyecto tiene asignado un líder).
+     * FK: IdEstado -> estados.Id (El proyecto tiene un estado de avance).
+
+----------------------------------------------------------------------
+3. DIAGRAMA CONCEPTUAL DE RELACIONES
+----------------------------------------------------------------------
+
+      [roles] 1 <------- N [usuarios] 1 <------- N [proyectos]
+                                                        | N
+     [paises] 1 <------- N [empresas] 1 <------- 1      |
+                                                        v
+                                                    [estados] (1 <------- N proyectos)
+
+
+
+
+

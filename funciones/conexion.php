@@ -1,4 +1,4 @@
-<?php // Inicia el script de utilidad para la conexión a la base de datos
+<?php
 // Define la función ConexionBD para conectar con la base de datos MySQL
 function ConexionBD($Host = 'localhost', $User = 'root', $Password = '', $BaseDeDatos = 'consultora') { // Declaración de la función con parámetros por defecto
     $linkConexion = mysqli_connect($Host, $User, $Password, $BaseDeDatos); // Intenta establecer la conexión con los parámetros dados

@@ -10,7 +10,7 @@ if ($_SESSION['Usuario_Nivel'] != 1) { // Verifica si el usuario autenticado no 
     header('Location: index.php'); // Redirecciona al usuario no autorizado de vuelta al listado de inicio
     exit(); // Finaliza la ejecución del script
 } // Fin del chequeo del Administrador
-require_once __DIR__ . '/inc/header.inc.php'; // Incluye el encabezado con guardias de sesión y conexión a la base de datos
+require_once 'inc/header.inc.php'; // Incluye el encabezado con guardias de sesión y conexión a la base de datos
 $usuarios_lista = Listar_Usuarios($vConexion); // Obtiene la lista de todos los usuarios activos no eliminados de la base de datos
 ?>
 <h1 class="h3 mb-3"><strong>Usuarios</strong> Listado general.</h1> 
@@ -67,5 +67,5 @@ $usuarios_lista = Listar_Usuarios($vConexion); // Obtiene la lista de todos los 
     </div> 
 </div> 
 <?php // Cierra el cuerpo de la página e incluye las dependencias
-require_once __DIR__ . '/inc/footer.inc.php'; // Incluye el pie de página y las etiquetas de cierre
+require_once 'inc/footer.inc.php'; // Incluye el pie de página y las etiquetas de cierre
 ?>

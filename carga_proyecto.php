@@ -1,5 +1,5 @@
 <?php // Inicia el script PHP para el formulario de ingreso de proyectos
-require_once __DIR__ . '/inc/header.inc.php'; // Incluye el encabezado con guardias de sesión y conexión a la base de datos
+require_once 'inc/header.inc.php'; // Incluye el encabezado con guardias de sesión y conexión a la base de datos
 
 $empresas = Listar_Empresas($vConexion); // Obtiene la lista de empresas activas para el selector del cliente
 $lideres = Listar_Lideres($vConexion); // Obtiene la lista de líderes de proyectos para el desplegable de selección del líder
@@ -102,5 +102,5 @@ if (!empty($_POST['btnRegistrar'])) { // Verifica si el formulario de registro f
     </div> 
 </div> 
 <?php // Cierra el cuerpo de la página y las etiquetas del contenedor principal
-require_once __DIR__ . '/inc/footer.inc.php'; // Incluye los scripts finales de pie de página y etiquetas de cierre
+require_once 'inc/footer.inc.php'; // Incluye los scripts finales de pie de página y etiquetas de cierre
 ?>

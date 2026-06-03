@@ -1,5 +1,5 @@
 <?php // Inicia el script PHP para la página de registro de empresas
-require_once __DIR__ . '/inc/header.inc.php'; // Incluye el encabezado con guardias de sesión y conexión a la base de datos
+require_once 'inc/header.inc.php'; // Incluye el encabezado con guardias de sesión y conexión a la base de datos
 
 // Restringe el acceso: solo el Administrador (Nivel 1) puede ver esta página de creación de empresas
 if ($_SESSION['Usuario_Nivel'] != 1) { // Verifica si el usuario autenticado no es un Administrador
@@ -83,5 +83,5 @@ if (!empty($_POST['btnRegistrar'])) { // Verifica si el formulario fue enviado m
     </div> 
 </div> 
 <?php // Cierra las etiquetas HTML e incluye los scripts finales
-require_once __DIR__ . '/inc/footer.inc.php'; // Incluye el archivo de plantilla del pie de página
+require_once 'inc/footer.inc.php'; // Incluye el archivo de plantilla del pie de página
 ?>

@@ -10,7 +10,7 @@ if ($_SESSION['Usuario_Nivel'] != 1) { // Verifica si el usuario autenticado no 
     header('Location: index.php'); // Redirecciona al usuario no autorizado al panel de control
     exit(); // Detiene la ejecución del script
 } // Fin del chequeo de Administrador
-require_once __DIR__ . '/inc/header.inc.php'; // Incluye el encabezado con guardias de sesión y conexión a la base de datos
+require_once 'inc/header.inc.php'; // Incluye el encabezado con guardias de sesión y conexión a la base de datos
 $paises_lista = Listar_Paises($vConexion); // Obtiene la lista de países activos de la base de datos
 $total_paises = count($paises_lista); // Cuenta la cantidad total de países activos
 ?>
@@ -71,5 +71,5 @@ $total_paises = count($paises_lista); // Cuenta la cantidad total de países act
     </div> 
 </div> 
 <?php // Cierra los contenedores HTML y carga las dependencias
-require_once __DIR__ . '/inc/footer.inc.php'; // Incluye el archivo de plantilla del pie de página
+require_once 'inc/footer.inc.php'; // Incluye el archivo de plantilla del pie de página
 ?>

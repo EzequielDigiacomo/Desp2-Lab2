@@ -27,7 +27,7 @@ if (!mysqli_select_db($link, 'consultora')) { // Intenta seleccionar la base de 
 $table_check = mysqli_query($link, "SHOW TABLES LIKE 'roles'"); // Verifica si la tabla roles existe
 if (mysqli_num_rows($table_check) == 0) { // Si la tabla no existe
     echo "Importing base schema from consultora.sql...\n"; // Muestra el estado de la importación
-    $base_sql = file_get_contents(__DIR__ . '/consultora.sql'); // Lee el archivo del esquema base
+    $base_sql = file_get_contents('consultora.sql'); // Lee el archivo del esquema base
     if ($base_sql === false) { // Verifica si no se pudo leer el archivo
         die('Error reading consultora.sql'); // Termina en caso de fallo en la lectura
     } // Fin del chequeo de lectura
@@ -54,7 +54,7 @@ if (!$link) { // Verifica si la nueva conexión falló
 
 // Importa la extensión de tablas y los datos de prueba
 echo "Importing table extensions from consultora_tablas.sql...\n"; // Muestra estado de la importación
-$ext_sql = file_get_contents(__DIR__ . '/consultora_tablas.sql'); // Lee el archivo de extensión del esquema
+$ext_sql = file_get_contents('consultora_tablas.sql'); // Lee el archivo de extensión del esquema
 if ($ext_sql === false) { // Verifica si el archivo no pudo ser leído
     die('Error reading consultora_tablas.sql'); // Termina en caso de fallo en la lectura
 } // Fin del chequeo de lectura
