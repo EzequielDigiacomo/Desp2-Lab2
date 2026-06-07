@@ -21,12 +21,16 @@ if (!empty($_POST['BotonRegistrar'])) {
     // Validaciones
     if (empty($vNombre) || empty($vApellido) || empty($vUsuario) || empty($vClave) || empty($vReClave) || $vRol <= 0) {
         $Msg_Error = "Todos los campos son obligatorios.";
+    // Valida largo del nombre
     } elseif (strlen($vNombre) < 2) {
         $Msg_Error = "El nombre debe tener al menos 2 caracteres.";
+    // Valida largo del apellido
     } elseif (strlen($vApellido) < 2) {
         $Msg_Error = "El apellido debe tener al menos 2 caracteres.";
+    // Valida largo del usuario
     } elseif (strlen($vUsuario) < 4) {
         $Msg_Error = "El usuario debe tener al menos 4 caracteres.";
+    // Valida largo de la clave
     } elseif (strlen($vClave) < 4) {
         $Msg_Error = "La contraseña debe tener al menos 4 caracteres.";
     } elseif ($vClave !== $vReClave) {
@@ -84,15 +88,15 @@ if (!empty($_POST['BotonRegistrar'])) {
                                 <form method="POST" action="registro.php">
                                     <div class="mb-3">
                                         <label class="form-label">Nombre</label>
-                                        <input class="form-control form-control-lg" type="text" name="txtNombre" placeholder="Ingresa tu nombre" required value="<?php echo isset($_POST['txtNombre']) ? htmlspecialchars($_POST['txtNombre']) : ''; ?>" />
+                                        <input class="form-control form-control-lg" type="text" name="txtNombre" placeholder="Ingresa tu nombre" required value="<?php echo isset($_POST['txtNombre']) ? $_POST['txtNombre'] : ''; ?>" />
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Apellido</label>
-                                        <input class="form-control form-control-lg" type="text" name="txtApellido" placeholder="Ingresa tu apellido" required value="<?php echo isset($_POST['txtApellido']) ? htmlspecialchars($_POST['txtApellido']) : ''; ?>" />
+                                        <input class="form-control form-control-lg" type="text" name="txtApellido" placeholder="Ingresa tu apellido" required value="<?php echo isset($_POST['txtApellido']) ? $_POST['txtApellido'] : ''; ?>" />
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Usuario</label>
-                                        <input class="form-control form-control-lg" type="text" name="txtUsuario" placeholder="Ingresa tu nombre de usuario" required value="<?php echo isset($_POST['txtUsuario']) ? htmlspecialchars($_POST['txtUsuario']) : ''; ?>" />
+                                        <input class="form-control form-control-lg" type="text" name="txtUsuario" placeholder="Ingresa tu nombre de usuario" required value="<?php echo isset($_POST['txtUsuario']) ? $_POST['txtUsuario'] : ''; ?>" />
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Rol / Nivel</label>
@@ -100,7 +104,7 @@ if (!empty($_POST['BotonRegistrar'])) {
                                             <option value="">Selecciona tu rol...</option>
                                             <?php foreach ($roles as $rol) { ?>
                                                 <option value="<?php echo $rol['ID']; ?>" <?php echo (isset($_POST['selRol']) && $_POST['selRol'] == $rol['ID']) ? 'selected' : ''; ?>>
-                                                    <?php echo htmlspecialchars($rol['NOMBRE']); ?>
+                                                    <?php echo $rol['NOMBRE']; ?>
                                                 </option>
                                             <?php } ?>
                                         </select>

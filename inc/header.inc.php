@@ -1,14 +1,14 @@
-<?php // Inicia el archivo PHP de inclusión de cabecera
-if (session_status() === PHP_SESSION_NONE) { // Verifica si la sesión aún no se ha iniciado
-    session_start(); // Inicializa la sesión de forma segura para persistir el estado de inicio de sesión
-} // Fin del chequeo del estado de la sesión
-if (empty($_SESSION['Usuario'])) { // Verifica si la variable de sesión del usuario no está configurada
-    header('Location: login.php'); // Redirecciona al usuario no autenticado a la pantalla de inicio de sesión
-    exit(); // Detiene la ejecución adicional del script
-} // Fin del chequeo de la guardia de inicio de sesión
-require_once 'funciones/conexion.php'; // Incluye la función de conexión a la base de datos
-require_once 'funciones/library.php'; // Incluye la biblioteca de operaciones de base de datos
-$vConexion = ConexionBD(); // Establece la conexión a la base de datos
+<?php 
+if (session_status() === PHP_SESSION_NONE) { 
+    session_start(); 
+} 
+if (empty($_SESSION['Usuario'])) { 
+    header('Location: login.php'); 
+    exit(); 
+} 
+require_once 'funciones/conexion.php'; 
+require_once 'funciones/library.php'; 
+$vConexion = ConexionBD(); 
 ?>
 <!DOCTYPE html>
 <html lang="en"> 
@@ -28,8 +28,8 @@ $vConexion = ConexionBD(); // Establece la conexión a la base de datos
 </head>
 <body>
     <div class="wrapper"> 
-        <?php // Comienza la inclusión del panel de navegación lateral
-        require_once 'sidebar.inc.php'; // Muestra el panel lateral de navegación
+        <?php 
+        require_once 'sidebar.inc.php'; 
         ?> 
         <div class="main"> 
             <nav class="navbar navbar-expand navbar-light navbar-bg"> 
@@ -46,7 +46,7 @@ $vConexion = ConexionBD(); // Establece la conexión a la base de datos
                                 <img src="img/avatars/<?php echo $_SESSION['Usuario_Img']; ?>" class="avatar img-fluid rounded me-1" alt="<?php echo $_SESSION['Usuario_Nombre']; ?>" /> <span class="text-dark"><?php echo $_SESSION['Usuario_Nombre'] . ' ' . $_SESSION['Usuario_Apellido']; ?></span> 
                             </a> 
                             <div class="dropdown-menu dropdown-menu-end"> 
-                                <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="user"></i> <?php echo mb_strtoupper($_SESSION['Usuario_NombreNivel'], 'UTF-8'); // Muestra de forma segura el nombre del nivel del usuario en mayúsculas ?></a> 
+                                <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="user"></i> <?php echo mb_strtoupper($_SESSION['Usuario_NombreNivel'], 'UTF-8'); ?></a> 
                                 <div class="dropdown-divider"></div> 
                                 <a class="dropdown-item" href="index.php"><i class="align-middle me-1" data-feather="settings"></i> Configuración y Privacidad</a> 
                                 <div class="dropdown-divider"></div> 

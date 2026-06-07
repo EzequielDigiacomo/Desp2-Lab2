@@ -44,7 +44,8 @@ INSERT INTO `estados` (`Id`, `Denominacion`) VALUES
 
 CREATE TABLE `paises` (
   `Id` int(11) NOT NULL,
-  `Denominacion` varchar(50) COLLATE utf8_spanish_ci NOT NULL
+  `Denominacion` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `Eliminado` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --

@@ -1,5 +1,5 @@
-                </div> <?php // Fin del div container-fluid ?> 
-            </main> <?php // Fin del contenedor del contenido principal ?> 
+                </div> <?php ?> 
+            </main> <?php ?> 
             <footer class="footer"> 
                 <div class="container-fluid"> 
                     <div class="row text-muted"> 
@@ -27,9 +27,9 @@
                     </div> 
                 </div> 
             </footer> 
-        </div> <?php // Fin del div main wrapper ?> 
-    </div> <?php // Fin del div outer wrapper ?> 
+        </div> <?php ?> 
+    </div> <?php ?> 
     <script src="js/app.js"></script> 
 </body> 
 </html> 
-<?php // Fin del script del pie de página PHP ?>
+<?php ?>

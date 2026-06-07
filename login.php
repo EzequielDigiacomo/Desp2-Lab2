@@ -1,38 +1,38 @@
-<?php // Inicia el script PHP para la página de inicio de sesión
-session_start(); // Inicializa el almacenamiento de sesiones
-require_once 'funciones/conexion.php'; // Incluye la utilidad para construir la conexión
-require_once 'funciones/library.php'; // Incluye la biblioteca de funciones compartidas
-$vConexion = ConexionBD(); // Establece la conexión a la base de datos
-$Error_Credenciales = false; // Bandera para rastrear errores de coincidencia de credenciales
-$Error_Permisos = false; // Bandera para rastrear errores de permisos de rol
+<?php 
+session_start(); 
+require_once 'funciones/conexion.php'; 
+require_once 'funciones/library.php'; 
+$vConexion = ConexionBD(); 
+$Error_Credenciales = false; 
+$Error_Permisos = false; 
 
-if (!empty($_POST['BotonLogin'])) { // Verifica si el formulario de inicio de sesión fue enviado
-    $vUser = trim(strip_tags($_POST['txtUsuario'])); // Limpia y sanitiza la entrada del nombre de usuario
-    $vClave = trim(strip_tags($_POST['txtClave'])); // Limpia y sanitiza la entrada de la contraseña
-    $UsuarioLogueado = DatosLogin_Hash($vUser, $vClave, $vConexion); // Valida las credenciales contra la base de datos
+if (!empty($_POST['BotonLogin'])) { 
+    $vUser = trim($_POST['txtUsuario']); 
+    $vClave = trim($_POST['txtClave']); 
+    $UsuarioLogueado = DatosLogin_Hash($vUser, $vClave, $vConexion); 
     
-    if (!empty($UsuarioLogueado)) { // Verifica si el inicio de sesión devolvió detalles de usuario válidos
-        if ($UsuarioLogueado['ACTIVO'] == 1) { // Verifica si la cuenta del usuario está activa
-            $RolesPermitidos = array(1, 2); // Define la lista de roles permitidos (Admin y Líder)
-            if (in_array($UsuarioLogueado['NIVEL_ID'], $RolesPermitidos)) { // Verifica si el rol del usuario tiene permitido el acceso
-                $_SESSION['Usuario'] = $vUser; // Almacena el nombre de usuario en la sesión para el seguimiento
-                $_SESSION['Usuario_Nombre'] = $UsuarioLogueado['NOMBRE']; // Almacena el nombre del usuario en la sesión
-                $_SESSION['Usuario_Apellido'] = $UsuarioLogueado['APELLIDO']; // Almacena el apellido del usuario en la sesión
-                $_SESSION['Usuario_Nivel'] = $UsuarioLogueado['NIVEL_ID']; // Almacena el nivel de rol numérico en la sesión
-                $_SESSION['Usuario_NombreNivel'] = $UsuarioLogueado['NIVEL_NOMBRE']; // Almacena el nombre del rol en la sesión
-                $_SESSION['Usuario_Img'] = $UsuarioLogueado['IMG']; // Almacena el nombre de archivo del avatar del usuario
-                header('Location: index.php'); // Redirecciona al usuario al panel de control de inicio
-                exit(); // Detiene la ejecución del script
-            } else { // Manejo de roles no permitidos (Analista y Programador)
-                $Error_Permisos = true; // Establece la bandera de error de rol no autorizado en verdadero
-            } // Fin de la verificación de acceso por rol
-        } else { // Manejo de cuenta inactiva
-            $Error_Permisos = true; // Establece el bloqueo por estado de cuenta en verdadero
-        } // Fin de la verificación de cuenta activa
-    } else { // Manejo de desajuste de credenciales
-        $Error_Credenciales = true; // Establece la bandera de error de credenciales en verdadero
-    } // Fin de la verificación de detalles del usuario
-} // Fin del chequeo de POST
+    if (!empty($UsuarioLogueado)) { 
+        if ($UsuarioLogueado['ACTIVO'] == 1) { 
+            $RolesPermitidos = array(1, 2); 
+            if (in_array($UsuarioLogueado['NIVEL_ID'], $RolesPermitidos)) { 
+                $_SESSION['Usuario'] = $vUser; 
+                $_SESSION['Usuario_Nombre'] = $UsuarioLogueado['NOMBRE']; 
+                $_SESSION['Usuario_Apellido'] = $UsuarioLogueado['APELLIDO']; 
+                $_SESSION['Usuario_Nivel'] = $UsuarioLogueado['NIVEL_ID']; 
+                $_SESSION['Usuario_NombreNivel'] = $UsuarioLogueado['NIVEL_NOMBRE']; 
+                $_SESSION['Usuario_Img'] = $UsuarioLogueado['IMG']; 
+                header('Location: index.php'); 
+                exit(); 
+            } else { 
+                $Error_Permisos = true; 
+            } 
+        } else { 
+            $Error_Permisos = true; 
+        } 
+    } else { 
+        $Error_Credenciales = true; 
+    } 
+} 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,17 +66,17 @@ if (!empty($_POST['BotonLogin'])) { // Verifica si el formulario de inicio de se
                                         </p>
                                     </div>
                                     <div class="card-header border-0 pb-0">
-                                        <?php if ($Error_Credenciales) { // Verifica si el intento de inicio de sesión tuvo credenciales incorrectas ?>
+                                        <?php if ($Error_Credenciales) { ?>
                                         <h4 class="text-danger text-center">Datos incorrectos, intenta de nuevo.</h4>
-                                        <?php } // Fin de la verificación de visualización de error ?>
-                                        <?php if ($Error_Permisos) { // Verifica si el inicio de sesión fue bloqueado por privilegios de rol ?>
+                                        <?php } ?>
+                                        <?php if ($Error_Permisos) { ?>
                                         <h4 class="text-danger text-center">No tienes permisos asignados para ingresar al panel</h4>
-                                        <?php } // Fin de la verificación de visualización de permisos ?>
+                                        <?php } ?>
                                     </div>
                                     <form method="POST" action="login.php">
                                         <div class="mb-3">
                                             <label class="form-label">Login</label>
-                                            <input class="form-control form-control-lg" name="txtUsuario" type="text" placeholder="Ingresa tu email o usuario" required value="<?php echo isset($_POST['txtUsuario']) ? htmlspecialchars($_POST['txtUsuario']) : ''; ?>" />
+                                            <input class="form-control form-control-lg" name="txtUsuario" type="text" placeholder="Ingresa tu email o usuario" required value="<?php echo isset($_POST['txtUsuario']) ? $_POST['txtUsuario'] : ''; ?>" />
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Password</label>
