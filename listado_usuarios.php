@@ -17,6 +17,7 @@ $usuarios_lista = Listar_Usuarios($vConexion);
 <div class="row"> 
     <div class="col-12 col-lg-12 col-xxl-12 d-flex"> 
         <div class="card flex-fill"> 
+            <?php // isset verifica si la variable de sesion existe ?>
             <?php if (isset($_SESSION['Mensaje_Usuario'])) { ?> 
             <div class="card-header pb-0"> 
                 <div class="alert alert-<?php echo $_SESSION['Estilo_Usuario']; ?> alert-dismissible mb-0" role="alert"> 
@@ -25,6 +26,7 @@ $usuarios_lista = Listar_Usuarios($vConexion);
                     </div> 
                 </div> 
             </div> 
+            <?php // unset elimina la variable de sesion para que no se repita el cartel ?>
             <?php unset($_SESSION['Mensaje_Usuario']); ?> 
             <?php unset($_SESSION['Estilo_Usuario']); ?> 
             <?php } ?> 
@@ -40,11 +42,11 @@ $usuarios_lista = Listar_Usuarios($vConexion);
                 </thead> 
                 <tbody> 
                     <?php 
-                    $cnt = 1; 
+                    $contador = 1; 
                     foreach ($usuarios_lista as $usuario) { 
                     ?> 
                     <tr> 
-                        <td><?php echo $cnt++; ?></td> 
+                        <td><?php echo $contador++; ?></td> 
                         <td> 
                             <img src="img/avatars/<?php echo $usuario['IMG']; ?>" width="36" height="36" class="rounded-circle me-2" alt="<?php echo $usuario['USUARIO']; ?>"> 
                             <?php echo $usuario['APELLIDO'] . ' ' . $usuario['NOMBRE']; ?> 

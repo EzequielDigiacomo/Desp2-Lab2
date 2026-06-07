@@ -9,12 +9,14 @@ $total_proyectos = count($proyectos_lista);
         <div class="card flex-fill"> 
             <div class="card-header"> 
                 <h4 class="text-info">Visualizando <?php echo $total_proyectos; ?> registros</h4> 
+                <?php // isset verifica si la variable de sesion existe ?>
                 <?php if (isset($_SESSION['Mensaje_Proyecto'])) { ?> 
                 <div class="alert alert-<?php echo $_SESSION['Estilo_Proyecto']; ?> alert-dismissible mt-2 mb-0" role="alert"> 
                     <div class="alert-message"> 
                         <?php echo $_SESSION['Mensaje_Proyecto']; ?> 
                     </div> 
                 </div> 
+                <?php // unset elimina la variable de sesion para que no se repita el cartel ?>
                 <?php unset($_SESSION['Mensaje_Proyecto']); ?> 
                 <?php unset($_SESSION['Estilo_Proyecto']); ?> 
                 <?php } ?> 
@@ -33,7 +35,7 @@ $total_proyectos = count($proyectos_lista);
                 </thead> 
                 <tbody> 
                     <?php 
-                    $cnt = 1; 
+                    $contador = 1; 
                     foreach ($proyectos_lista as $proyecto) { 
                         
                         if (isset($_GET['id_cancelado_simulado']) && intval($_GET['id_cancelado_simulado']) == $proyecto['ID']) {
@@ -64,7 +66,7 @@ $total_proyectos = count($proyectos_lista);
                         } 
                     ?> 
                     <tr> 
-                        <td><?php echo $cnt++; ?></td> 
+                        <td><?php echo $contador++; ?></td> 
                         <td> 
                             <?php if ($proyecto['PRIORIDAD'] == 1) { ?> 
                             <i data-feather="star" class="text-warning align-middle me-1"></i> 

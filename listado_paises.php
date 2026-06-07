@@ -20,12 +20,14 @@ $total_paises = count($paises_lista);
         <div class="card flex-fill"> 
             <div class="card-header"> 
                 <h4 class="text-info">Visualizando <?php echo $total_paises; ?> registros</h4> 
+                <?php // isset verifica si la variable de sesion existe ?>
                 <?php if (isset($_SESSION['Mensaje_Pais'])) { ?> 
                 <div class="alert alert-<?php echo $_SESSION['Estilo_Pais']; ?> alert-dismissible mt-2 mb-0" role="alert"> 
                     <div class="alert-message"> 
                         <?php echo $_SESSION['Mensaje_Pais']; ?> 
                     </div> 
                 </div> 
+                <?php // unset elimina la variable de sesion para que no se repita el cartel ?>
                 <?php unset($_SESSION['Mensaje_Pais']); ?> 
                 <?php unset($_SESSION['Estilo_Pais']); ?> 
                 <?php } ?> 
@@ -41,7 +43,7 @@ $total_paises = count($paises_lista);
                 </thead> 
                 <tbody> 
                     <?php 
-                    $cnt = 1; 
+                    $contador = 1; 
                     foreach ($paises_lista as $pais) { 
                         
                         $flag_file = 'URU.jpg'; 
@@ -54,7 +56,7 @@ $total_paises = count($paises_lista);
                         } 
                     ?> 
                     <tr> 
-                        <td><?php echo $cnt++; ?></td> 
+                        <td><?php echo $contador++; ?></td> 
                         <td><?php echo $pais['NOMBRE']; ?></td> 
                         <td> 
                             <img src="img/countries/<?php echo $flag_file; ?>" width="36" height="36" class="rounded-circle me-2" alt="<?php echo $pais['NOMBRE']; ?>"> 

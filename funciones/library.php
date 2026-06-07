@@ -75,10 +75,10 @@ function Listar_Usuarios($vConexion)
 function Listar_Empresas($vConexion)
 { 
     $Listado = array(); 
-    $SQL = "SELECT E.Id, E.Denominacion, E.FechaCarga, E.UsuarioCarga, P.Denominacion as Pais, U.Nombre as U_Nombre, U.Apellido as U_Apellido, U.Imagen as U_Imagen 
+    $SQL = "SELECT E.Id, E.Denominacion, E.FechaCarga, E.UsuarioCarga, P.Denominacion as Pais, U.Nombre, U.Apellido, U.Imagen 
             FROM empresas E 
             JOIN paises P ON E.IdPais = P.Id 
-            LEFT JOIN usuarios U ON E.UsuarioCarga = U.Usuario 
+            JOIN usuarios U ON E.UsuarioCarga = U.Usuario 
             WHERE E.Eliminado = 0 
             ORDER BY E.Denominacion ASC";
     $Resultado = mysqli_query($vConexion, $SQL); 
@@ -89,8 +89,8 @@ function Listar_Empresas($vConexion)
         $Listado[$i]['FECHA_CARGA'] = $data['FechaCarga']; 
         $Listado[$i]['USUARIO_CARGA'] = $data['UsuarioCarga']; 
         $Listado[$i]['PAIS'] = $data['Pais']; 
-        $Listado[$i]['CREADOR_COMPLETO'] = !empty($data['U_Nombre']) ? $data['U_Apellido'] . ' ' . $data['U_Nombre'] : $data['UsuarioCarga']; 
-        $Listado[$i]['CREADOR_IMG'] = !empty($data['U_Imagen']) ? $data['U_Imagen'] : 'login.png'; 
+        $Listado[$i]['CREADOR_COMPLETO'] = $data['Nombre'] . ' ' . $data['Apellido']; 
+        $Listado[$i]['CREADOR_IMG'] = empty($data['Imagen']) ? 'login.png' : $data['Imagen']; 
         $i++; 
     } 
     return $Listado; 
@@ -99,7 +99,7 @@ function Listar_Empresas($vConexion)
 function Listar_Proyectos($vConexion)
 { 
     $Listado = array(); 
-    $SQL = "SELECT PR.Id, PR.Denominacion, PR.FechaCarga, PR.Prioridad, E.Denominacion as Empresa, P.Denominacion as Pais, U.Nombre as L_Nombre, U.Apellido as L_Apellido, U.Imagen as L_Imagen, ES.Id as IdEstado, ES.Denominacion as Estado 
+    $SQL = "SELECT PR.Id, PR.Denominacion, PR.FechaCarga, PR.Prioridad, E.Denominacion as Empresa, P.Denominacion as Pais, U.Nombre, U.Apellido, U.Imagen, ES.Id as IdEstado, ES.Denominacion as Estado 
             FROM proyectos PR 
             JOIN empresas E ON PR.IdEmpresa = E.Id 
             JOIN paises P ON E.IdPais = P.Id 
@@ -116,8 +116,8 @@ function Listar_Proyectos($vConexion)
         $Listado[$i]['PRIORIDAD'] = $data['Prioridad']; 
         $Listado[$i]['EMPRESA'] = $data['Empresa']; 
         $Listado[$i]['PAIS'] = $data['Pais']; 
-        $Listado[$i]['LIDER_COMPLETO'] = $data['L_Nombre'] . ' ' . $data['L_Apellido']; 
-        $Listado[$i]['LIDER_IMG'] = empty($data['L_Imagen']) ? 'login.png' : $data['L_Imagen']; 
+        $Listado[$i]['LIDER_COMPLETO'] = $data['Nombre'] . ' ' . $data['Apellido']; 
+        $Listado[$i]['LIDER_IMG'] = empty($data['Imagen']) ? 'login.png' : $data['Imagen'];  //si imagen esta vacio entonces pone login.png
         $Listado[$i]['ESTADO_ID'] = $data['IdEstado']; 
         $Listado[$i]['ESTADO_NOMBRE'] = $data['Estado']; 
         $i++; 

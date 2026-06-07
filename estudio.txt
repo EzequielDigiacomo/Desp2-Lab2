@@ -381,6 +381,15 @@ CONCEPTOS CLAVE DE PHP Y FUNCIONES COMUNES
 * Propósito: Obtener la longitud de una cadena de texto (String).
 * Explicación simple: Cuenta la cantidad de letras o caracteres que tiene un texto. Es muy útil para validar que un nombre de usuario o contraseña cumpla con un mínimo requerido (por ejemplo, al menos 3 caracteres).
 
+12. date() y strtotime()
+----------------------------------------------------------------------
+* Propósito: Mostrar las fechas de la base de datos en un formato amigable (ej: "Día/Mes/Año").
+* Explicación simple:
+  - En la base de datos la fecha se guarda como texto ordenado año-mes-día: "2026-06-07 18:28:41".
+  - La función date() sirve para darle formato, pero requiere la fecha medida en segundos para poder procesarla.
+  - strtotime() toma la fecha en texto de la base de datos y la convierte a un número de segundos (Unix timestamp).
+  - Combinación: date('d/m/Y', strtotime($vFecha)) primero traduce la fecha a segundos con strtotime, y luego date la convierte a la estructura clásica "día/mes/año" (07/06/2026).
+
 ======================================================================
 CONSULTAS SQL SIMPLIFICADAS (EXPLICACIÓN Y CÓDIGO)
 ======================================================================
@@ -423,19 +432,19 @@ CONSULTAS SQL SIMPLIFICADAS (EXPLICACIÓN Y CÓDIGO)
 5. Listar Empresas (Listar_Empresas)
 ----------------------------------------------------------------------
 * Código SQL:
-  SELECT E.Id, E.Denominacion, E.FechaCarga, E.UsuarioCarga, P.Denominacion as Pais, U.Nombre as U_Nombre, U.Apellido as U_Apellido, U.Imagen as U_Imagen 
+  SELECT E.Id, E.Denominacion, E.FechaCarga, E.UsuarioCarga, P.Denominacion as Pais, U.Nombre, U.Apellido, U.Imagen 
   FROM empresas E 
   JOIN paises P ON E.IdPais = P.Id 
-  LEFT JOIN usuarios U ON E.UsuarioCarga = U.Usuario 
+  JOIN usuarios U ON E.UsuarioCarga = U.Usuario 
   WHERE E.Eliminado = 0 
   ORDER BY E.Denominacion ASC
 
-* Explicación breve: Obtiene las empresas activas (E), uniendo la tabla de 'paises' (P) para mostrar el nombre del país del cliente, y la tabla de 'usuarios' (U) para mostrar quién cargó el registro.
+* Explicación breve: Obtiene las empresas activas (E), uniendo la tabla de 'paises' (P) para mostrar el nombre del país del cliente, y la tabla de 'usuarios' (U) mediante un JOIN clásico para mostrar el nombre y apellido reales del creador del registro.
 
 6. Listar Proyectos (Listar_Proyectos)
 ----------------------------------------------------------------------
 * Código SQL:
-  SELECT PR.Id, PR.Denominacion, PR.FechaCarga, PR.Prioridad, E.Denominacion as Empresa, P.Denominacion as Pais, U.Nombre as L_Nombre, U.Apellido as L_Apellido, U.Imagen as L_Imagen, ES.Id as IdEstado, ES.Denominacion as Estado 
+  SELECT PR.Id, PR.Denominacion, PR.FechaCarga, PR.Prioridad, E.Denominacion as Empresa, P.Denominacion as Pais, U.Nombre, U.Apellido, U.Imagen, ES.Id as IdEstado, ES.Denominacion as Estado 
   FROM proyectos PR 
   JOIN empresas E ON PR.IdEmpresa = E.Id 
   JOIN paises P ON E.IdPais = P.Id 
@@ -444,7 +453,7 @@ CONSULTAS SQL SIMPLIFICADAS (EXPLICACIÓN Y CÓDIGO)
   WHERE PR.Eliminado = 0 
   ORDER BY PR.FechaCarga ASC
 
-* Explicación breve: Cruza la tabla 'proyectos' (PR) con 'empresas' (E), 'paises' (P), 'usuarios' (U) y 'estados' (ES) para construir un listado completo con los nombres reales de los clientes, países, líderes y estados correspondientes.
+* Explicación breve: Cruza la tabla 'proyectos' (PR) con 'empresas' (E), 'paises' (P), 'usuarios' (U) y 'estados' (ES) usando INNER JOINs para construir un listado con los nombres reales de las empresas, países, líderes y estados correspondientes sin usar alias complejos para las columnas de usuarios.
 
 7. Listar Líderes (Listar_Lideres)
 ----------------------------------------------------------------------

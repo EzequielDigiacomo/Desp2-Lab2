@@ -9,12 +9,14 @@ $total_empresas = count($empresas_lista);
         <div class="card flex-fill"> 
             <div class="card-header"> 
                 <h4 class="text-info">Visualizando <?php echo $total_empresas; ?> registros</h4> 
+                <?php // isset verifica si la variable de sesion existe ?>
                 <?php if (isset($_SESSION['Mensaje_Empresa'])) { ?> 
                 <div class="alert alert-<?php echo $_SESSION['Estilo_Empresa']; ?> alert-dismissible mt-2 mb-0" role="alert"> 
                     <div class="alert-message"> 
                         <?php echo $_SESSION['Mensaje_Empresa']; ?> 
                     </div> 
                 </div> 
+                <?php // unset elimina la variable de sesion para que no se repita el cartel ?>
                 <?php unset($_SESSION['Mensaje_Empresa']); ?> 
                 <?php unset($_SESSION['Estilo_Empresa']); ?> 
                 <?php } ?> 
@@ -33,7 +35,7 @@ $total_empresas = count($empresas_lista);
                 </thead> 
                 <tbody> 
                     <?php 
-                    $cnt = 1; 
+                    $contador = 1; 
                     foreach ($empresas_lista as $empresa) { 
                         
                         $flag_file = 'URU.jpg'; 
@@ -46,7 +48,7 @@ $total_empresas = count($empresas_lista);
                         } 
                     ?> 
                     <tr> 
-                        <td><?php echo $cnt++; ?></td> 
+                        <td><?php echo $contador++; ?></td> 
                         <td> 
                             <img src="img/countries/<?php echo $flag_file; ?>" width="36" height="36" class="rounded-circle me-2" alt="<?php echo $empresa['PAIS']; ?>" title="<?php echo $empresa['PAIS']; ?>"> 
                             <?php echo $empresa['DENOMINACION']; ?> 

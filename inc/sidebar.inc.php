@@ -10,6 +10,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <li class="sidebar-header">
                 Proyectos
             </li>
+            <li class="sidebar-item <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">
+                <a class="sidebar-link" href="index.php">
+                    <i class="align-middle me-2" data-feather="home"></i> <span class="align-middle">Dashboard</span>
+                </a>
+            </li>
             <li class="sidebar-item <?php echo ($current_page == 'listado_proyectos.php') ? 'active' : ''; ?>">
                 <a class="sidebar-link" href="listado_proyectos.php">
                     <i class="align-middle me-2" data-feather="list"></i> <span class="align-middle">Listado de
