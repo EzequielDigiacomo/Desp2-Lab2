@@ -38,13 +38,8 @@ $total_proyectos = count($proyectos_lista);
                     $contador = 1; 
                     foreach ($proyectos_lista as $proyecto) { 
                         
-                        if (isset($_GET['id_cancelado_simulado']) && intval($_GET['id_cancelado_simulado']) == $proyecto['ID']) {
-                            $proyecto['ESTADO_ID'] = 4;
-                            $proyecto['ESTADO_NOMBRE'] = 'Cancelado';
-                        }
 
                         
-                        $badge_class = 'bg-secondary'; 
                         if ($proyecto['ESTADO_ID'] == 1) { 
                             $badge_class = 'bg-info'; 
                         } elseif ($proyecto['ESTADO_ID'] == 2) { 
@@ -53,25 +48,28 @@ $total_proyectos = count($proyectos_lista);
                             $badge_class = 'bg-success'; 
                         } elseif ($proyecto['ESTADO_ID'] == 4) { 
                             $badge_class = 'bg-danger'; 
+                        } else {
+                            $badge_class = 'bg-secondary'; // Gris por defecto si no coincide con ninguno
                         } 
                         
                         
-                        $flag_file = 'URU.jpg'; 
                         if ($proyecto['PAIS'] == 'Argentina') { 
                             $flag_file = 'ARG.jpg'; 
                         } elseif ($proyecto['PAIS'] == 'Brasil') { 
                             $flag_file = 'BRA.jpg'; 
                         } elseif ($proyecto['PAIS'] == 'Chile') { 
                             $flag_file = 'CHI.jpg'; 
-                        } 
+                        } else {
+                            $flag_file = 'URU.jpg'; // Uruguay queda como la opción por defecto
+                        }
                     ?> 
                     <tr> 
                         <td><?php echo $contador++; ?></td> 
                         <td> 
+                            <?php echo $proyecto['DENOMINACION']; ?> 
                             <?php if ($proyecto['PRIORIDAD'] == 1) { ?> 
                             <i data-feather="star" class="text-warning align-middle me-1"></i> 
                             <?php } ?> 
-                            <?php echo $proyecto['DENOMINACION']; ?> 
                         </td> 
                         <td class="d-none d-md-table-cell"> 
                             <?php echo date('d/m/Y', strtotime($proyecto['FECHA_CARGA'])); ?> 

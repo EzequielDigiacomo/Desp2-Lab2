@@ -13,13 +13,13 @@ if (!empty($_POST['BotonLogin'])) {
     
     if (!empty($UsuarioLogueado)) { 
         if ($UsuarioLogueado['ACTIVO'] == 1) { 
-            $RolesPermitidos = array(1, 2); 
-            if (in_array($UsuarioLogueado['NIVEL_ID'], $RolesPermitidos)) { 
+            $RolesPermitidos = array(1, 2);
+            if ($UsuarioLogueado['ID_ROL'] == 1 || $UsuarioLogueado['ID_ROL'] == 2) { 
                 $_SESSION['Usuario'] = $vUser; 
                 $_SESSION['Usuario_Nombre'] = $UsuarioLogueado['NOMBRE']; 
                 $_SESSION['Usuario_Apellido'] = $UsuarioLogueado['APELLIDO']; 
-                $_SESSION['Usuario_Nivel'] = $UsuarioLogueado['NIVEL_ID']; 
-                $_SESSION['Usuario_NombreNivel'] = $UsuarioLogueado['NIVEL_NOMBRE']; 
+                $_SESSION['Usuario_Nivel'] = $UsuarioLogueado['ID_ROL']; 
+                $_SESSION['Usuario_NombreNivel'] = $UsuarioLogueado['NOMBRE_ROL']; 
                 $_SESSION['Usuario_Img'] = $UsuarioLogueado['IMG']; 
                 header('Location: index.php'); 
                 exit(); 
@@ -76,6 +76,7 @@ if (!empty($_POST['BotonLogin'])) {
                                     <form method="POST" action="login.php">
                                         <div class="mb-3">
                                             <label class="form-label">Login</label>
+                                            <?php // Mantiene el usuario que se escribió en caso de error en el login ?>
                                             <input class="form-control form-control-lg" name="txtUsuario" type="text" placeholder="Ingresa tu email o usuario" required value="<?php echo isset($_POST['txtUsuario']) ? $_POST['txtUsuario'] : ''; ?>" />
                                         </div>
                                         <div class="mb-3">

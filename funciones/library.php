@@ -13,8 +13,8 @@ function DatosLogin_Hash($vUsuario, $vClave, $vConexion)
             $Usuario['ID'] = $data['IdUsuario']; 
             $Usuario['NOMBRE'] = $data['Nombre']; 
             $Usuario['APELLIDO'] = $data['Apellido']; 
-            $Usuario['NIVEL_ID'] = $data['IdRol']; 
-            $Usuario['NIVEL_NOMBRE'] = $data['NombreRol']; 
+            $Usuario['ID_ROL'] = $data['IdRol']; 
+            $Usuario['NOMBRE_ROL'] = $data['NombreRol']; 
             $Usuario['IMG'] = empty($data['Imagen']) ? 'login.png' : $data['Imagen']; 
             $Usuario['ACTIVO'] = $data['Activo']; 
         } 
@@ -174,6 +174,16 @@ function Cancelar_Proyecto($vConexion, $IdProyecto)
     } 
 } 
 
+function Eliminar_Proyecto_Fisico($vConexion, $IdProyecto)
+{ 
+    $SQL = "DELETE FROM proyectos WHERE Id = $IdProyecto"; 
+    if (mysqli_query($vConexion, $SQL)) { 
+        return true; 
+    } else { 
+        return false; 
+    } 
+}
+
 function Borrar_Usuario_Logico($vConexion, $Id)
 {
     $SQL = "UPDATE `usuarios` SET Eliminado = 1, Activo = 0 WHERE IdUsuario = $Id";
@@ -228,4 +238,5 @@ function Insertar_Usuario_Hash($vConexion, $vNombre, $vApellido, $vUsuario, $vCl
     }
     return false;
 }
+
 ?>
