@@ -176,6 +176,7 @@ function Cancelar_Proyecto($vConexion, $IdProyecto)
 
 function Eliminar_Proyecto_Fisico($vConexion, $IdProyecto)
 { 
+    // Consulta SQL para baja física: DELETE FROM proyectos WHERE Id = $IdProyecto
     $SQL = "DELETE FROM proyectos WHERE Id = $IdProyecto"; 
     if (mysqli_query($vConexion, $SQL)) { 
         return true; 
@@ -186,6 +187,7 @@ function Eliminar_Proyecto_Fisico($vConexion, $IdProyecto)
 
 function Borrar_Usuario_Logico($vConexion, $Id)
 {
+    // Consulta SQL alternativa para baja física: DELETE FROM usuarios WHERE IdUsuario = $Id
     $SQL = "UPDATE `usuarios` SET Eliminado = 1, Activo = 0 WHERE IdUsuario = $Id";
     if (mysqli_query($vConexion, $SQL)) {
         return true;
@@ -196,6 +198,7 @@ function Borrar_Usuario_Logico($vConexion, $Id)
 
 function Borrar_Empresa_Logico($vConexion, $Id)
 {
+    // Consulta SQL alternativa para baja física: DELETE FROM empresas WHERE Id = $Id
     $SQL = "UPDATE `empresas` SET Eliminado = 1 WHERE Id = $Id";
     if (mysqli_query($vConexion, $SQL)) {
         return true;
@@ -206,6 +209,7 @@ function Borrar_Empresa_Logico($vConexion, $Id)
 
 function Borrar_Pais_Logico($vConexion, $Id)
 {
+    // Consulta SQL alternativa para baja física: DELETE FROM paises WHERE Id = $Id
     $SQL = "UPDATE `paises` SET Eliminado = 1 WHERE Id = $Id";
     if (mysqli_query($vConexion, $SQL)) {
         return true;
