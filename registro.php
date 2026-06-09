@@ -88,22 +88,22 @@ if (!empty($_POST['BotonRegistrar'])) {
                                 <form method="POST" action="registro.php">
                                     <div class="mb-3">
                                         <label class="form-label">Nombre</label>
-                                        <input class="form-control form-control-lg" type="text" name="txtNombre" placeholder="Ingresa tu nombre" required value="<?php echo isset($_POST['txtNombre']) ? $_POST['txtNombre'] : ''; ?>" />
+                                        <input class="form-control form-control-lg" type="text" name="txtNombre" placeholder="Ingresa tu nombre" required value="<?php echo isset($_POST['txtNombre']) ? $_POST['txtNombre'] : ''; /* isset verifica si existe el dato enviado para conservarlo en el campo */ ?>" />
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Apellido</label>
-                                        <input class="form-control form-control-lg" type="text" name="txtApellido" placeholder="Ingresa tu apellido" required value="<?php echo isset($_POST['txtApellido']) ? $_POST['txtApellido'] : ''; ?>" />
+                                        <input class="form-control form-control-lg" type="text" name="txtApellido" placeholder="Ingresa tu apellido" required value="<?php echo isset($_POST['txtApellido']) ? $_POST['txtApellido'] : ''; /* isset verifica si existe el dato enviado para conservarlo en el campo */ ?>" />
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Usuario</label>
-                                        <input class="form-control form-control-lg" type="text" name="txtUsuario" placeholder="Ingresa tu nombre de usuario" required value="<?php echo isset($_POST['txtUsuario']) ? $_POST['txtUsuario'] : ''; ?>" />
+                                        <input class="form-control form-control-lg" type="text" name="txtUsuario" placeholder="Ingresa tu nombre de usuario" required value="<?php echo isset($_POST['txtUsuario']) ? $_POST['txtUsuario'] : ''; /* isset verifica si existe el dato enviado para conservarlo en el campo */ ?>" />
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Rol / Nivel</label>
                                         <select class="form-select form-select-lg" name="selRol" required>
                                             <option value="">Selecciona tu rol...</option>
                                             <?php foreach ($roles as $rol) { ?>
-                                                <option value="<?php echo $rol['ID']; ?>" <?php echo (isset($_POST['selRol']) && $_POST['selRol'] == $rol['ID']) ? 'selected' : ''; ?>>
+                                                <option value="<?php echo $rol['ID']; ?>" <?php echo (isset($_POST['selRol']) && $_POST['selRol'] == $rol['ID']) ? 'selected' : ''; /* isset comprueba si existe el rol enviado para dejarlo seleccionado */ ?>>
                                                     <?php echo $rol['NOMBRE']; ?>
                                                 </option>
                                             <?php } ?>
