@@ -38,8 +38,6 @@ $total_proyectos = count($proyectos_lista);
                     $contador = 1; 
                     foreach ($proyectos_lista as $proyecto) { 
                         
-
-                        
                         if ($proyecto['ESTADO_ID'] == 1) { 
                             $badge_class = 'bg-info'; 
                         } elseif ($proyecto['ESTADO_ID'] == 2) { 
@@ -51,7 +49,6 @@ $total_proyectos = count($proyectos_lista);
                         } else {
                             $badge_class = 'bg-secondary'; // Gris por defecto si no coincide con ninguno
                         } 
-                        
                         
                         if ($proyecto['PAIS'] == 'Argentina') { 
                             $flag_file = 'ARG.jpg'; 

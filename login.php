@@ -4,7 +4,9 @@ require_once 'funciones/conexion.php';
 require_once 'funciones/library.php'; 
 $vConexion = ConexionBD(); 
 $Error_Credenciales = false; 
-$Error_Permisos = false; 
+$Error_Permisos = false;
+$Error_Activo = false; 
+
 
 if (!empty($_POST['BotonLogin'])) { 
     $vUser = trim($_POST['txtUsuario']); 
@@ -27,7 +29,7 @@ if (!empty($_POST['BotonLogin'])) {
                 $Error_Permisos = true; 
             } 
         } else { 
-            $Error_Permisos = true; 
+            $Error_Activo = true; 
         } 
     } else { 
         $Error_Credenciales = true; 
@@ -71,6 +73,9 @@ if (!empty($_POST['BotonLogin'])) {
                                         <?php } ?>
                                         <?php if ($Error_Permisos) { ?>
                                         <h4 class="text-danger text-center">No tienes permisos asignados para ingresar al panel</h4>
+                                        <?php } ?>
+                                        <?php if ($Error_Activo) { ?>
+                                        <h4 class="text-danger text-center">Tu cuenta no se encuentra activa</h4>
                                         <?php } ?>
                                     </div>
                                     <form method="POST" action="login.php">
