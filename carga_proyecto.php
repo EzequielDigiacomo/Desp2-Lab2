@@ -58,11 +58,11 @@ if (!empty($_POST['btnRegistrar'])) {
                 <form method="POST" action="carga_proyecto.php"> 
                     <div class="mb-3"> 
                         <h5 class="card-title mb-1">Denominación <i class="align-middle me-2" data-feather="command"></i></h5> 
-                        <input type="text" name="txtDenominacion" class="form-control" placeholder="Ingresa el nombre del Proyecto" required value="<?php echo isset($_POST['txtDenominacion']) && !$Msg_Exito ? $_POST['txtDenominacion'] : ''; ?>"> 
+                        <input type="text" name="txtDenominacion" class="form-control" placeholder="Ingresa el nombre del Proyecto" value="<?php echo isset($_POST['txtDenominacion']) && !$Msg_Exito ? $_POST['txtDenominacion'] : ''; ?>"> 
                     </div> 
                     <div class="mb-3"> 
                         <h5 class="card-title mb-1">Empresa <i class="align-middle me-2" data-feather="command"></i></h5> 
-                        <select name="selEmpresa" class="form-select" required> 
+                        <select name="selEmpresa" class="form-select"> 
                             <option value="0">Para quien trabajaremos...</option> 
                             <?php foreach ($empresas as $empresa) { ?> 
                             <option value="<?php echo $empresa['ID']; ?>" <?php echo isset($_POST['selEmpresa']) && $_POST['selEmpresa'] == $empresa['ID'] && !$Msg_Exito ? 'selected' : ''; ?>> 
@@ -73,7 +73,7 @@ if (!empty($_POST['btnRegistrar'])) {
                     </div> 
                     <div class="mb-3"> 
                         <h5 class="card-title mb-1">Líder <i class="align-middle me-2" data-feather="command"></i></h5> 
-                        <select name="selLider" class="form-select" required> 
+                        <select name="selLider" class="form-select"> 
                             <option value="0">Selecciona una opción</option> 
                             <?php foreach ($lideres as $lider) { ?> 
                             <option value="<?php echo $lider['ID']; ?>" <?php echo isset($_POST['selLider']) && $_POST['selLider'] == $lider['ID'] && !$Msg_Exito ? 'selected' : ''; ?>> 

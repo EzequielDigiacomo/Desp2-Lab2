@@ -57,11 +57,11 @@ if (!empty($_POST['btnRegistrar'])) {
                 <form method="POST" action="carga_empresa.php"> 
                     <div class="mb-3"> 
                         <h5 class="card-title mb-1">Denominación <i class="align-middle me-2" data-feather="command"></i></h5> 
-                        <input type="text" name="txtDenominacion" class="form-control" placeholder="Ingresa el nombre" required value="<?php echo isset($_POST['txtDenominacion']) && !$Msg_Exito ? $_POST['txtDenominacion'] : ''; ?>"> 
+                        <input type="text" name="txtDenominacion" class="form-control" placeholder="Ingresa el nombre" value="<?php echo isset($_POST['txtDenominacion']) && !$Msg_Exito ? $_POST['txtDenominacion'] : ''; ?>"> 
                     </div> 
                     <div class="mb-3"> 
                         <h5 class="card-title mb-1">Pais <i class="align-middle me-2" data-feather="command"></i></h5> 
-                        <select name="selPais" class="form-select" required> 
+                        <select name="selPais" class="form-select"> 
                             <option value="0">Elige una opción</option> 
                             <?php foreach ($paises as $pais) { ?> 
                             <option value="<?php echo $pais['ID']; ?>" <?php echo isset($_POST['selPais']) && $_POST['selPais'] == $pais['ID'] && !$Msg_Exito ? 'selected' : ''; ?>> 
