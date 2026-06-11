@@ -62,7 +62,7 @@ $total_empresas = count($empresas_lista);
                         </td> 
                         <?php if ($_SESSION['Usuario_Nivel'] == 1) { ?> 
                         <td> 
-                            <a class="btn btn-primary btn-sm success" href="editar_empresa.php?id=<?php echo $empresa['ID']; ?>"><span data-feather="edit"></span> Editar</a> 
+                            <a class="btn btn-primary btn-sm success" href="editar_empresas.php?id=<?php echo $empresa['ID']; ?>"><span data-feather="edit"></span> Editar</a> 
                             <a class="btn btn-danger btn-sm" href="borrar_empresa.php?id=<?php echo $empresa['ID']; ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar esta empresa?');"><span data-feather="delete"></span> Borrar</a> 
                         </td> 
                         <?php } ?> 

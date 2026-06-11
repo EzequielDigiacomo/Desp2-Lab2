@@ -62,7 +62,7 @@ $total_paises = count($paises_lista);
                             <img src="img/countries/<?php echo $flag_file; ?>" width="36" height="36" class="rounded-circle me-2" alt="<?php echo $pais['NOMBRE']; ?>"> 
                         </td> 
                         <td> 
-                            <a class="btn btn-primary btn-sm success" href="editar_pais.php?id=<?php echo $pais['ID']; ?>"><span data-feather="edit"></span> Editar</a> 
+                            <a class="btn btn-primary btn-sm success" href="editar_paises.php?id=<?php echo $pais['ID']; ?>"><span data-feather="edit"></span> Editar</a> 
                             <a class="btn btn-danger btn-sm" href="borrar_pais.php?id=<?php echo $pais['ID']; ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar este país?');"><span data-feather="delete"></span> Borrar</a> 
                         </td> 
                     </tr> 

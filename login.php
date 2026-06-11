@@ -92,9 +92,6 @@ if (!empty($_POST['BotonLogin'])) {
                                             <input class="btn btn-lg btn-primary" type="submit" name="BotonLogin" value="Ingresar">
                                         </div>
                                     </form>
-                                    <div class="text-center mt-3">
-                                        ¿No tienes una cuenta? <a href="registro.php">Regístrate aquí</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>

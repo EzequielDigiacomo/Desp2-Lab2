@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `Apellido` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `IdRol` int(11) NOT NULL,
   `Imagen` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-  `Activo` tinyint(4) NOT NULL DEFAULT 1,
-  `Eliminado` tinyint(4) NOT NULL DEFAULT 0,
+  `Activo` BOOLEAN NOT NULL DEFAULT TRUE,
+  `Eliminado` BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`IdUsuario`),
   UNIQUE KEY `idx_usuario` (`Usuario`),
   FOREIGN KEY (`IdRol`) REFERENCES `roles` (`Id`)
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `empresas` (
   `Observaciones` text COLLATE utf8_spanish_ci,
   `FechaCarga` datetime NOT NULL,
   `UsuarioCarga` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `Eliminado` tinyint(4) NOT NULL DEFAULT 0,
+  `Eliminado` BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`Id`),
   FOREIGN KEY (`IdPais`) REFERENCES `paises` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -43,39 +43,21 @@ CREATE TABLE IF NOT EXISTS `proyectos` (
   `IdEstado` int(11) NOT NULL DEFAULT 1,
   `FechaCarga` datetime NOT NULL,
   `UsuarioCarga` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `Eliminado` tinyint(4) NOT NULL DEFAULT 0,
+  `Eliminado` BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`Id`),
   FOREIGN KEY (`IdEmpresa`) REFERENCES `empresas` (`Id`),
   FOREIGN KEY (`IdLider`) REFERENCES `usuarios` (`IdUsuario`),
   FOREIGN KEY (`IdEstado`) REFERENCES `estados` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- Populate table: usuarios with mock users
--- Passwords are set to the same value as the username (e.g. 'mferrero' password is 'mferrero')
--- Hashes generated using PASSWORD_BCRYPT:
--- mferrero: $2y$10$w400KWhCus.J.49wK4b04.Qp72/gYV4yHn5d63zU5g6yO4f3D4pB6
--- mgutierrez: $2y$10$qjL9R.2/NkWw5LbeuBfSbeP4xI/3T6G/cE/fP3s7Q5yO4f3D4pB6
--- wjhonson: $2y$10$N/Y0rQ.2/NkWw5LbeuBfSbeP4xI/3T6G/cE/fP3s7Q5yO4f3D4pB6
--- spalacios: $2y$10$wTf2rQ.2/NkWw5LbeuBfSbeP4xI/3T6G/cE/fP3s7Q5yO4f3D4pB6
--- arodriguez: $2y$10$4hG2rQ.2/NkWw5LbeuBfSbeP4xI/3T6G/cE/fP3s7Q5yO4f3D4pB6
--- csanabria: $2y$10$YkG2rQ.2/NkWw5LbeuBfSbeP4xI/3T6G/cE/fP3s7Q5yO4f3D4pB6
-
--- Since we want exact and reliable password verification, we'll hash the username using PHP in our setup code.
--- For direct SQL input, these are valid bcrypt hashes for the passwords matching their usernames:
--- mferrero -> $2y$10$89Jd/J7.jN7BwYf0Tf0jOuG0XmU5T8B4r5bV3zT2r1u0p6yGf.dK6
--- mgutierrez -> $2y$10$Qj6l3oV8Z5xJpX2o1UxeOQ1qLqj88.2T.Yg3J4qD/yC6C4eC3a3q
--- wjhonson -> $2y$10$q2Y7c9oV8Z5xJpX2o1UxeOQ1qLqj88.2T.Yg3J4qD/yC6C4eC3a3q
--- spalacios -> $2y$10$3YmGqS.zK/6PZ8vQj1UxeOQ1qLqj88.2T.Yg3J4qD/yC6C4eC3a3q
--- arodriguez -> $2y$10$b5Y7c9oV8Z5xJpX2o1UxeOQ1qLqj88.2T.Yg3J4qD/yC6C4eC3a3q
--- csanabria -> $2y$10$c5Y7c9oV8Z5xJpX2o1UxeOQ1qLqj88.2T.Yg3J4qD/yC6C4eC3a3q
 
 INSERT INTO `usuarios` (`IdUsuario`, `Usuario`, `Clave`, `Nombre`, `Apellido`, `IdRol`, `Imagen`, `Activo`, `Eliminado`) VALUES
-(1, 'mferrero', '$2y$10$89Jd/J7.jN7BwYf0Tf0jOuG0XmU5T8B4r5bV3zT2r1u0p6yGf.dK6', 'Mara', 'Ferrero', 4, 'mferrero.jpg', 1, 0),
-(2, 'mgutierrez', '$2y$10$Qj6l3oV8Z5xJpX2o1UxeOQ1qLqj88.2T.Yg3J4qD/yC6C4eC3a3q', 'Marcos', 'Gutierrez', 2, 'mgutierrez.jpg', 1, 0),
-(3, 'wjhonson', '$2y$10$q2Y7c9oV8Z5xJpX2o1UxeOQ1qLqj88.2T.Yg3J4qD/yC6C4eC3a3q', 'William', 'Jhonson', 2, 'wjhonson.jpg', 1, 0),
-(4, 'spalacios', '$2y$10$3YmGqS.zK/6PZ8vQj1UxeOQ1qLqj88.2T.Yg3J4qD/yC6C4eC3a3q', 'Sue', 'Palacios', 1, 'spalacios.png', 1, 0),
-(5, 'arodriguez', '$2y$10$b5Y7c9oV8Z5xJpX2o1UxeOQ1qLqj88.2T.Yg3J4qD/yC6C4eC3a3q', 'Anna', 'Rodriguez', 2, 'arodriguez.jpg', 1, 0),
-(6, 'csanabria', '$2y$10$c5Y7c9oV8Z5xJpX2o1UxeOQ1qLqj88.2T.Yg3J4qD/yC6C4eC3a3q', 'Carla', 'Sanabria', 3, 'csanabria.jpg', 1, 0)
+(1, 'mferrero', '$2y$10$.IN9tR9TGz2aBiSwXK9NTOXwXr.7R5hy9Fz.3NGfOfQqB9umb7fkK', 'Mara', 'Ferrero', 4, 'mferrero.jpg', 1, 0),
+(2, 'mgutierrez', '$2y$10$yIqg/BVZ3JYmqhlMGzuidePRAx6o6d4NNpM4hpHjRQ5v/aszrGLqS', 'Marcos', 'Gutierrez', 2, 'mgutierrez.jpg', 1, 0),
+(3, 'wjhonson', '$2y$10$U435ViAJMZXZE3REvf6Hn.tyTS.7qwldF9CLfgILWiVBitWUEQu8K', 'William', 'Jhonson', 2, 'wjhonson.jpg', 1, 0),
+(4, 'spalacios', '$2y$10$yX3j9zXMxxCQEVfbN542ruIGH/XGkWecttE9axMsi93etTStMw7Li', 'Sue', 'Palacios', 1, 'spalacios.png', 1, 0),
+(5, 'arodriguez', '$2y$10$fOq1W0TqY5HSu9jon9x83uQDXD2FEPOYbMM0dCZ96LwQN9WUXWBXm', 'Anna', 'Rodriguez', 2, 'arodriguez.jpg', 1, 0),
+(6, 'csanabria', '$2y$10$/H.Th2ddPW6kPkp.yQGpHuet6kSzuR5QRuPUSZRNbUhRDo79dww4G', 'Carla', 'Sanabria', 3, 'csanabria.jpg', 1, 0)
 ON DUPLICATE KEY UPDATE `Usuario`=`Usuario`;
 
 -- Populate table: empresas with mock companies

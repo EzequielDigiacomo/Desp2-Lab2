@@ -9,9 +9,15 @@ if (!$link) {
     die('Could not connect to MySQL: ' . mysqli_connect_error()); 
 } 
 
+// Limpieza completa (Opción A): Elimina la base de datos si ya existe
+$sql_drop = "DROP DATABASE IF EXISTS `consultora`";
+if (!mysqli_query($link, $sql_drop)) {
+    die('Error al eliminar la base de datos previa: ' . mysqli_error($link));
+}
+
 $sql_db = "CREATE DATABASE IF NOT EXISTS `consultora` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci"; 
 if (mysqli_query($link, $sql_db)) { 
-    echo "Database consultora created or already exists.\n"; 
+    echo "Database consultora created.\n"; 
 } else { 
     die('Error creating database: ' . mysqli_error($link)); 
 } 
