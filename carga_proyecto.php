@@ -45,7 +45,7 @@ if (!empty($_POST['btnRegistrar'])) {
                     <i class="align-middle" data-feather="check-square"></i> Registro cargado correctamente. 
                 </h4> 
                 <?php } ?> 
-                <?php if (!empty($Msg_Error)) { ?> 
+                <?php if ($Msg_Error) { ?> 
                 <h4 class="text-danger text-center"> 
                     <i class="align-middle me-2" data-feather="alert-circle"></i> <?php echo $Msg_Error; ?> 
                 </h4> 
